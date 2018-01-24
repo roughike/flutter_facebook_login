@@ -62,7 +62,7 @@ Add `flutter_facebook_login` as a dependency to your _pubspec.yaml_ file.
 
 ```yaml
 dependencies:
-  flutter_facebook_login: ^1.0.0
+  flutter_facebook_login: ^1.0.1
 ```
 
 Download the new dependency to your project by either running `flutter packages get` inside your

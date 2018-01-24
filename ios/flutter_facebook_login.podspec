@@ -2,7 +2,7 @@
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
 #
 Pod::Spec.new do |s|
-  s.name             = 'facebook_login'
+  s.name             = 'flutter_facebook_login'
   s.version          = '0.0.1'
   s.summary          = 'A Flutter plugin for allowing users to authenticate with native Android &amp; iOS Facebook login SDKs.'
   s.description      = <<-DESC
