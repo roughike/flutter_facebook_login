@@ -16,3 +16,6 @@ flutter:
   plugin:
     androidPackage: com.roughike.facebooklogin.facebooklogin
     pluginClass: FacebookLoginPlugin
+
+environment:
+    sdk: ">=1.8.0 <2.0.0"

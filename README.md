@@ -58,7 +58,7 @@ Also some minimal Android & iOS specific configuration must be done, otherise yo
 
 ### On your Flutter project
 
-Add `facebook_login` as a dependency to your _pubspec.yaml_ file.
+Add `flutter_facebook_login` as a dependency to your _pubspec.yaml_ file.
 
 ```yaml
 dependencies:
@@ -73,12 +73,11 @@ project root folder, or by clicking the "Packages get" link that should appear i
 This assumes that you've done the _"Associate Your Package Name and Default Class with Your App"_ and
  _"Provide the Development and Release Key Hashes for Your App"_ in the [the Facebook Login documentation for Android site](https://developers.facebook.com/docs/facebook-login/android).
 
-
 After you've done that, find out what your _Facebook App ID_ is. You can find your Facebook App ID in your Facebook App's dashboard in the Facebook developer console.
 
 Once you have the Facebook App ID figured out, youll have to do two things.
 
-First, copy-paste the following to your strings resource file.
+First, copy-paste the following to your strings resource file. If you don't have one, just create it.
 
 **<your project root>/android/app/src/main/res/values/strings.xml**
 
@@ -90,7 +89,7 @@ First, copy-paste the following to your strings resource file.
     <!-- Replace "000000000000" with your Facebook App ID here. -->
     <string name="facebook_app_id">000000000000</string>
     
-    <!-- Here too. -->
+    <!-- Replace "000000000000" with your Facebook App ID here. -->
     <string name="fb_login_protocol_scheme">fb000000000000</string>
 </resources>
 ```
@@ -100,15 +99,13 @@ Then you'll just have to copy-paste the following to your _Android Manifest_:
 **<your project root>/android/app/src/main/AndroidManifest.xml**
 
 ```xml
-<!-- Replace "000000000000" with your Facebook App ID here. -->
-<meta-data android:name="com.facebook.sdk.ApplicationId"
-    android:value="000000000000" />
+<meta-data android:name="com.facebook.sdk.ApplicationId" 
+    android:value="@string/facebook_app_id"/>
 
-<!-- Replace "YOUR_APP_NAME" with your app name. -->
 <activity android:name="com.facebook.FacebookActivity"
     android:configChanges=
-        "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-    android:label="YOUR_APP_NAME" />
+            "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+    android:label="@string/app_name" />
 
 <activity
     android:name="com.facebook.CustomTabActivity"
@@ -117,9 +114,7 @@ Then you'll just have to copy-paste the following to your _Android Manifest_:
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        
-        <!-- Replace "000000000000" with your Facebook App ID here. -->
-        <data android:scheme="fb000000000000" />
+        <data android:scheme="@string/fb_login_protocol_scheme" />
     </intent-filter>
 </activity>
 ```
@@ -140,7 +135,6 @@ Once you have the Facebook App ID figured out, then you'll just have to copy-pas
 **<your project root>/ios/Runner/Info.plist**
 
 ```xml
-<!-- Facebook Login SDK configuration -->
 <key>CFBundleURLTypes</key>
 <array>
     <dict>
