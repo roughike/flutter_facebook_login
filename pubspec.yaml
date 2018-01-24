@@ -1,0 +1,18 @@
+name: flutter_facebook_login
+description: A Flutter plugin for allowing users to authenticate with native Android &amp; iOS Facebook login SDKs.
+version: 1.0.0
+author: Iiro Krankka <iiro.krankka@gmail.com>
+homepage: https://github.com/roughike/flutter_facebook_login
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    androidPackage: com.roughike.facebooklogin.facebooklogin
+    pluginClass: FacebookLoginPlugin

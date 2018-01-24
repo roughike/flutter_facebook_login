@@ -1,0 +1,36 @@
+PODS:
+  - Bolts (1.8.4):
+    - Bolts/AppLinks (= 1.8.4)
+    - Bolts/Tasks (= 1.8.4)
+  - Bolts/AppLinks (1.8.4):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.8.4)
+  - facebook_login (0.0.1):
+    - FBSDKLoginKit (~> 4.29)
+    - Flutter
+  - FBSDKCoreKit (4.29.0):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.29.0):
+    - FBSDKCoreKit
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - facebook_login (from `/Users/ironman/FlutterProjects/facebook_login/ios`)
+  - Flutter (from `/Users/ironman/flutter/bin/cache/artifacts/engine/ios`)
+
+EXTERNAL SOURCES:
+  facebook_login:
+    :path: /Users/ironman/FlutterProjects/facebook_login/ios
+  Flutter:
+    :path: /Users/ironman/flutter/bin/cache/artifacts/engine/ios
+
+SPEC CHECKSUMS:
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  facebook_login: 4d8ce7c82462aeb155f69c6297a4f6621a0d581b
+  FBSDKCoreKit: 6f139173dc63a1deaff4430a55f2fe5bb222d2af
+  FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
+  Flutter: d674e78c937094a75ac71dd77e921e840bea3dbf
+
+PODFILE CHECKSUM: 3098c51a7edbd004c9f2b45eca5eb135d6f3ff27
+
+COCOAPODS: 1.3.0.beta.1
