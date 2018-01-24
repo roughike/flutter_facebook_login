@@ -49,7 +49,7 @@ facebookLogin.loginBehavior = FacebookLoginBehavior.webViewOnly;
 
 ## API reference
 
-For complete documentation, just see the [source code](/flutter_facebook_login.dart). Everything is documented there.
+For complete documentation, just see the [source code](/lib/flutter_facebook_login.dart). Everything is documented there.
 
 ## Installation
 
@@ -119,7 +119,7 @@ Then you'll just have to copy-paste the following to your _Android Manifest_:
 </activity>
 ```
 
-A sample of a complete AndroidManifest file can be found [here](/example/android/app/src/main/AndroidManifest.xml).
+A sample of a complete AndroidManifest file can be found [here](/example/android/app/src/main/AndroidManifest.xml#L39-L56).
 
 Done!
 
@@ -164,6 +164,6 @@ Once you have the Facebook App ID figured out, then you'll just have to copy-pas
 </array>
 ```
 
-A sample of a complete Info.plist file can be found [here](/example/ios/Runner/Info.plist).
+A sample of a complete Info.plist file can be found [here](/example/ios/Runner/Info.plist#L49-L70).
 
 Done!
