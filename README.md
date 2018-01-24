@@ -1,5 +1,7 @@
 # flutter_facebook_login
 
+[![pub package](https://img.shields.io/pub/v/flutter_facebook_login.svg)](https://pub.dartlang.org/packages/flutter_facebook_login)
+
 A Flutter plugin for using the native Facebook Login SDKs on Android and iOS.
 
 This plugin uses [the new Gradle 4.1 and Android Studio 3.0 project setup](https://github.com/flutter/flutter/wiki/Updating-Flutter-projects-to-Gradle-4.1-and-Android-Studio-Gradle-plugin-3.0.1).
@@ -58,15 +60,7 @@ Also some minimal Android & iOS specific configuration must be done, otherise yo
 
 ### On your Flutter project
 
-Add `flutter_facebook_login` as a dependency to your _pubspec.yaml_ file.
-
-```yaml
-dependencies:
-  flutter_facebook_login: ^1.0.1
-```
-
-Download the new dependency to your project by either running `flutter packages get` inside your
-project root folder, or by clicking the "Packages get" link that should appear inside your editor.
+See the [installation instructions on pub](https://pub.dartlang.org/packages/flutter_facebook_login#-installing-tab-).
 
 ### Android
 
