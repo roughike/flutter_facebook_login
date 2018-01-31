@@ -59,6 +59,26 @@ class FacebookLogin {
     _loginBehavior = behavior;
   }
 
+  /// Returns whether the user is currently logged in or not.
+  ///
+  /// Convenience method for checking if the [currentAccessToken] is null or
+  /// not.
+  Future<bool> get isLoggedIn async => await currentAccessToken != null;
+
+  /// Retrieves the current access token for the application.
+  ///
+  /// If the user is not logged in, this returns null.
+  Future<FacebookAccessToken> get currentAccessToken async {
+    final Map<String, dynamic> accessToken =
+        await channel.invokeMethod('getCurrentAccessToken');
+
+    if (accessToken == null) {
+      return null;
+    }
+
+    return new FacebookAccessToken.fromMap(accessToken);
+  }
+
   /// Logs the user in with the requested read permissions.
   ///
   /// This will throw an exception from the native side if the [permissions]
@@ -278,13 +298,13 @@ class FacebookAccessToken {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is FacebookAccessToken &&
-              runtimeType == other.runtimeType &&
-              token == other.token &&
-              userId == other.userId &&
-              expires == other.expires &&
-              permissions == other.permissions &&
-              declinedPermissions == other.declinedPermissions;
+      other is FacebookAccessToken &&
+          runtimeType == other.runtimeType &&
+          token == other.token &&
+          userId == other.userId &&
+          expires == other.expires &&
+          permissions == other.permissions &&
+          declinedPermissions == other.declinedPermissions;
 
   @override
   int get hashCode =>
