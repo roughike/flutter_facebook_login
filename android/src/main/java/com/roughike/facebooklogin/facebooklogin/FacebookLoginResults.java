@@ -16,15 +16,7 @@ class FacebookLoginResults {
 
     static Map<String, Object> success(LoginResult loginResult) {
         final AccessToken accessToken = loginResult.getAccessToken();
-        final List<String> permissions = new ArrayList<>(accessToken.getPermissions());
-        final List<String> declinedPermissions = new ArrayList<>(accessToken.getDeclinedPermissions());
-        final Map<String, Object> accessTokenMap = new HashMap<String, Object>() {{
-            put("token", accessToken.getToken());
-            put("userId", accessToken.getUserId());
-            put("expires", accessToken.getExpires().getTime());
-            put("permissions", permissions);
-            put("declinedPermissions", declinedPermissions);
-        }};
+        final Map<String, Object> accessTokenMap = FacebookLoginResults.accessToken(accessToken);
 
         return new HashMap<String, Object>() {{
             put("status", "loggedIn");
@@ -36,6 +28,20 @@ class FacebookLoginResults {
         return new HashMap<String, String>() {{
             put("status", "error");
             put("errorMessage", error.getMessage());
+        }};
+    }
+
+    static Map<String, Object> accessToken(final AccessToken accessToken) {
+        if (accessToken == null) {
+            return null;
+        }
+
+        return new HashMap<String, Object>() {{
+            put("token", accessToken.getToken());
+            put("userId", accessToken.getUserId());
+            put("expires", accessToken.getExpires().getTime());
+            put("permissions", new ArrayList<>(accessToken.getPermissions()));
+            put("declinedPermissions", new ArrayList<>(accessToken.getDeclinedPermissions()));
         }};
     }
 }

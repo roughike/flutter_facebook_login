@@ -127,14 +127,14 @@
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Private/Bolts/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Private/FBSDKCoreKit/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Private/FBSDKLoginKit/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Private/facebook_login/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Private/flutter_facebook_login/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Private/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Public/Bolts/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Public/FBSDKCoreKit/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Public/FBSDKLoginKit/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Public/Flutter/Flutter/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Public/Flutter/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Public/facebook_login/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Public/flutter_facebook_login/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/Public/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Headers/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Local Podspecs/packages" />
@@ -146,7 +146,7 @@
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Target Support Files/FBSDKCoreKit/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Target Support Files/FBSDKLoginKit/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Target Support Files/Pods-Runner/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Target Support Files/facebook_login/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Target Support Files/flutter_facebook_login/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/Target Support Files/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Pods/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Runner.xcodeproj/packages" />
