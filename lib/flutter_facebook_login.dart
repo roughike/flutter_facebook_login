@@ -61,11 +61,25 @@ class FacebookLogin {
 
   /// Returns whether the user is currently logged in or not.
   ///
-  /// Convenience method for checking if the [currentAccessToken] is null or
-  /// not.
+  /// Convenience method for checking if the [currentAccessToken] is null.
   Future<bool> get isLoggedIn async => await currentAccessToken != null;
 
   /// Retrieves the current access token for the application.
+  ///
+  /// This could be useful for logging in the user automatically in the case
+  /// where you don't persist the access token in your Flutter app yourself.
+  ///
+  /// For example:
+  ///
+  /// ```dart
+  /// final FacebookAccessToken accessToken = await facebookLogin.currentAccessToken;
+  ///
+  /// if (accessToken != null) {
+  ///   _fetchFacebookNewsFeed(accessToken);
+  /// } else {
+  ///   _showLoginRequiredUI();
+  /// }
+  /// ```
   ///
   /// If the user is not logged in, this returns null.
   Future<FacebookAccessToken> get currentAccessToken async {

@@ -13,35 +13,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   static final FacebookLogin facebookSignIn = new FacebookLogin();
 
-  String _info = 'Loading...';
-  String _accessTokenResult = 'Log in/out by pressing the buttons below.';
-
-  @override
-  void initState() {
-    super.initState();
-    _updateInfo();
-  }
-
-  Future _updateInfo() async {
-    final bool isLoggedIn = await facebookSignIn.isLoggedIn;
-    final FacebookAccessToken accessToken = await facebookSignIn.currentAccessToken;
-
-    String newInfo = 'Logged in: $isLoggedIn';
-
-    if (isLoggedIn) {
-      newInfo += '''\n
-Token: ${accessToken.token}
-User id: ${accessToken.userId}
-Expires: ${accessToken.expires}
-Permissions: ${accessToken.permissions}
-Declined permissions: ${accessToken.declinedPermissions}
-      ''';
-    }
-
-    setState(() {
-      _info = newInfo;
-    });
-  }
+  String _message = 'Log in/out by pressing the buttons below.';
 
   Future<Null> _login() async {
     final FacebookLoginResult result =
@@ -50,7 +22,15 @@ Declined permissions: ${accessToken.declinedPermissions}
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         final FacebookAccessToken accessToken = result.accessToken;
-        // TODO (roughike): make a better sample app
+        _showMessage('''
+         Logged in!
+         
+         Token: ${accessToken.token}
+         User id: ${accessToken.userId}
+         Expires: ${accessToken.expires}
+         Permissions: ${accessToken.permissions}
+         Declined permissions: ${accessToken.declinedPermissions}
+         ''');
         break;
       case FacebookLoginStatus.cancelledByUser:
         _showMessage('Login cancelled by the user.');
@@ -60,18 +40,16 @@ Declined permissions: ${accessToken.declinedPermissions}
             'Here\'s the error Facebook gave us: ${result.errorMessage}');
         break;
     }
-
-    _updateInfo();
   }
 
   Future<Null> _logOut() async {
     await facebookSignIn.logOut();
-    _updateInfo();
+    _showMessage('Logged out.');
   }
 
   void _showMessage(String message) {
     setState(() {
-      _accessTokenResult = message;
+      _message = message;
     });
   }
 
@@ -86,8 +64,7 @@ Declined permissions: ${accessToken.declinedPermissions}
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Text(_info),
-              new Text(_accessTokenResult),
+              new Text(_message),
               new RaisedButton(
                 onPressed: _login,
                 child: new Text('Log in'),
