@@ -55,15 +55,7 @@ void main() {
       expect(dateTime.millisecond, 0);
     }
 
-    setUp(() {
-      sut = new FacebookLogin();
-      log.clear();
-    });
-
-    test('$FacebookAccessToken#fromMap()', () async {
-      final FacebookAccessToken accessToken =
-          new FacebookAccessToken.fromMap(kAccessToken);
-
+    void expectAccessTokenParsedCorrectly(FacebookAccessToken accessToken) {
       expect(accessToken.token, 'test_token');
       expect(accessToken.userId, 'test_user_id');
       expectExpiresDateParsedCorrectly(accessToken.expires);
@@ -76,6 +68,18 @@ void main() {
         'test_declined_permission_1',
         'test_declined_permission_2',
       ]);
+    }
+
+    setUp(() {
+      sut = new FacebookLogin();
+      log.clear();
+    });
+
+    test('$FacebookAccessToken#fromMap()', () async {
+      final FacebookAccessToken accessToken =
+          new FacebookAccessToken.fromMap(kAccessToken);
+
+      expectAccessTokenParsedCorrectly(accessToken);
     });
 
     test('$FacebookAccessToken#toMap()', () async {
@@ -199,20 +203,7 @@ void main() {
       ]);
 
       expect(result.status, FacebookLoginStatus.loggedIn);
-
-      final FacebookAccessToken accessToken = result.accessToken;
-      expect(accessToken.token, 'test_token');
-      expect(accessToken.userId, 'test_user_id');
-      expectExpiresDateParsedCorrectly(accessToken.expires);
-      expect(accessToken.permissions, [
-        'test_permission_1',
-        'test_permission_2',
-      ]);
-
-      expect(accessToken.declinedPermissions, [
-        'test_declined_permission_1',
-        'test_declined_permission_2',
-      ]);
+      expectAccessTokenParsedCorrectly(result.accessToken);
 
       expect(
         log,
@@ -262,20 +253,7 @@ void main() {
       ]);
 
       expect(result.status, FacebookLoginStatus.loggedIn);
-
-      final FacebookAccessToken accessToken = result.accessToken;
-      expect(accessToken.token, 'test_token');
-      expect(accessToken.userId, 'test_user_id');
-      expectExpiresDateParsedCorrectly(accessToken.expires);
-      expect(accessToken.permissions, [
-        'test_permission_1',
-        'test_permission_2',
-      ]);
-
-      expect(accessToken.declinedPermissions, [
-        'test_declined_permission_1',
-        'test_declined_permission_2',
-      ]);
+      expectAccessTokenParsedCorrectly(result.accessToken);
 
       expect(
         log,
@@ -329,6 +307,34 @@ void main() {
           ),
         ],
       );
+    });
+
+    test('get isLoggedIn - false when currentAccessToken null', () async {
+      setMethodCallResponse(null);
+
+      final bool isLoggedIn = await sut.isLoggedIn;
+      expect(isLoggedIn, isFalse);
+    });
+
+    test('get isLoggedIn - true when currentAccessToken is not null', () async {
+      setMethodCallResponse(kAccessToken);
+
+      final bool isLoggedIn = await sut.isLoggedIn;
+      expect(isLoggedIn, isTrue);
+    });
+
+    test('get currentAccessToken - handles null response gracefully', () async {
+      setMethodCallResponse(null);
+
+      final FacebookAccessToken accessToken = await sut.currentAccessToken;
+      expect(accessToken, isNull);
+    });
+
+    test('get currentAccessToken - when token returned, parses it properly', () async {
+      setMethodCallResponse(kAccessToken);
+
+      final FacebookAccessToken accessToken = await sut.currentAccessToken;
+      expectAccessTokenParsedCorrectly(accessToken);
     });
   });
 }

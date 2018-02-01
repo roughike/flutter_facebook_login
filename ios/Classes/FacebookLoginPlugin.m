@@ -72,6 +72,8 @@
                                result:result];
   } else if ([@"logOut" isEqualToString:call.method]) {
     [self logOut:result];
+  } else if ([@"getCurrentAccessToken" isEqualToString:call.method]) {
+    [self getCurrentAccessToken:result];
   } else {
     result(FlutterMethodNotImplemented);
   }
@@ -130,29 +132,23 @@
   result(nil);
 }
 
+- (void)getCurrentAccessToken:(FlutterResult)result {
+  FBSDKAccessToken *currentToken = [FBSDKAccessToken currentAccessToken];
+  NSDictionary *mappedToken = [self accessTokenToMap:currentToken];
+
+  result(mappedToken);
+}
+
 - (void)handleLoginResult:(FBSDKLoginManagerLoginResult *)loginResult
                    result:(FlutterResult)result
                     error:(NSError *)error {
   if (error == nil) {
     if (!loginResult.isCancelled) {
-      FBSDKAccessToken *accessToken = loginResult.token;
-      NSString *userId = [accessToken userID];
-      NSArray *permissions = [accessToken.permissions allObjects];
-      NSArray *declinedPermissions =
-          [accessToken.declinedPermissions allObjects];
-      NSNumber *expires = [NSNumber
-          numberWithLong:accessToken.expirationDate.timeIntervalSince1970 *
-                         1000.0];
+      NSDictionary *mappedToken = [self accessTokenToMap:loginResult.token];
 
       result(@{
         @"status" : @"loggedIn",
-        @"accessToken" : @{
-          @"token" : accessToken.tokenString,
-          @"userId" : userId,
-          @"expires" : expires,
-          @"permissions" : permissions,
-          @"declinedPermissions" : declinedPermissions,
-        },
+        @"accessToken" : mappedToken,
       });
     } else {
       result(@{
@@ -165,5 +161,25 @@
       @"errorMessage" : [error description],
     });
   }
+}
+
+- (NSDictionary *)accessTokenToMap:(FBSDKAccessToken *)accessToken {
+  if (accessToken == nil) {
+    return nil;
+  }
+
+  NSString *userId = [accessToken userID];
+  NSArray *permissions = [accessToken.permissions allObjects];
+  NSArray *declinedPermissions = [accessToken.declinedPermissions allObjects];
+  NSNumber *expires = [NSNumber
+      numberWithLong:accessToken.expirationDate.timeIntervalSince1970 * 1000.0];
+
+  return @{
+    @"token" : accessToken.tokenString,
+    @"userId" : userId,
+    @"expires" : expires,
+    @"permissions" : permissions,
+    @"declinedPermissions" : declinedPermissions,
+  };
 }
 @end
