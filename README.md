@@ -1,6 +1,6 @@
 # flutter_facebook_login
 
-[![pub package](https://img.shields.io/pub/v/flutter_facebook_login.svg)](https://pub.dartlang.org/packages/flutter_facebook_login)
+[![pub package](https://img.shields.io/pub/v/flutter_facebook_login.svg)](https://pub.dartlang.org/packages/flutter_facebook_login) [![Build Status](https://travis-ci.org/roughike/flutter_facebook_login.svg?branch=master)](https://travis-ci.org/roughike/flutter_facebook_login)
 
 A Flutter plugin for using the native Facebook Login SDKs on Android and iOS.
 
