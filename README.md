@@ -15,12 +15,12 @@ had good code quality.
 
 ## How do I use it?
 
-The library tries to closely match the native Android & iOS login SDK APIs where possible.
+The library tries to closely match the native Android & iOS login SDK APIs where possible. For complete API documentation, just see the [source code](https://github.com/roughike/flutter_facebook_login/blob/master/lib/flutter_facebook_login.dart). Everything is documented there.
 
 Since sample code is worth more than one page of documentation, here are the usual cases covered:
 
 ```dart
-FacebookLogin facebookLogin = new FacebookLogin();
+var facebookLogin = new FacebookLogin();
 FacebookLoginResult result =
   await facebookLogin.logInWithReadPermissions(['email']);
 
@@ -30,17 +30,10 @@ switch (result.status) {
     _showLoggedInUI();
     break;
   case FacebookLoginStatus.cancelledByUser:
-    _showConvincingMessageOnUI(
-      'It\'s okay, you can trust us! ' // no you can't
-      'We won\'t do bad things with your Facebook profile. ' // yes we will
-      'Scout\'s honor.' // not actually a Boy Scout
-    );
+    _showCancelledMessage();
     break;
   case FacebookLoginStatus.error:
-    _showErrorOnUI(
-      'Something went wrong with the login process.\n'
-      'Here\'s the error Facebook gave us: ${result.errorMessage}'
-    );
+    _showErrorOnUI(result.errorMessage);
     break;
 }
 ```
@@ -51,10 +44,6 @@ You can also change the visual appearance of the login dialog. For example:
 // Let's force the users to login using the login dialog based on WebViews. Yay!
 facebookLogin.loginBehavior = FacebookLoginBehavior.webViewOnly;
 ```
-
-## API reference
-
-For complete documentation, just see the [source code](/lib/flutter_facebook_login.dart). Everything is documented there.
 
 ## Installation
 
@@ -76,7 +65,7 @@ Once you have the Facebook App ID figured out, youll have to do two things.
 
 First, copy-paste the following to your strings resource file. If you don't have one, just create it.
 
-**<your project root>/android/app/src/main/res/values/strings.xml**
+**\<your project root\>/android/app/src/main/res/values/strings.xml**
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -93,7 +82,7 @@ First, copy-paste the following to your strings resource file. If you don't have
 
 Then you'll just have to copy-paste the following to your _Android Manifest_:
 
-**<your project root>/android/app/src/main/AndroidManifest.xml**
+**\<your project root\>/android/app/src/main/AndroidManifest.xml**
 
 ```xml
 <meta-data android:name="com.facebook.sdk.ApplicationId" 
@@ -116,7 +105,7 @@ Then you'll just have to copy-paste the following to your _Android Manifest_:
 </activity>
 ```
 
-A sample of a complete AndroidManifest file can be found [here](/example/android/app/src/main/AndroidManifest.xml#L39-L56).
+A sample of a complete AndroidManifest file can be found [here](https://github.com/roughike/flutter_facebook_login/blob/master/example/android/app/src/main/AndroidManifest.xml#L39-L56).
 
 Done!
 
@@ -129,7 +118,7 @@ After you've done that, find out what your _Facebook App ID_ is. You can find yo
  
 Once you have the Facebook App ID figured out, then you'll just have to copy-paste the following to your _Info.plist_ file, before the ending `</dict></plist>` tags.
 
-**<your project root>/ios/Runner/Info.plist**
+**\<your project root\>/ios/Runner/Info.plist**
 
 ```xml
 <key>CFBundleURLTypes</key>
@@ -161,6 +150,6 @@ Once you have the Facebook App ID figured out, then you'll just have to copy-pas
 </array>
 ```
 
-A sample of a complete Info.plist file can be found [here](/example/ios/Runner/Info.plist#L49-L70).
+A sample of a complete Info.plist file can be found [here](https://github.com/roughike/flutter_facebook_login/blob/master/example/ios/Runner/Info.plist#L49-L70).
 
 Done!
