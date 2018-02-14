@@ -140,6 +140,20 @@ class FacebookLogin {
   }
 
   /// Logs the currently logged in user out.
+  ///
+  /// NOTE: On iOS, this behaves in an unwanted way. As far the Login SDK is
+  /// concerned, the access token and session is cleared upon logging out.
+  /// However, when using [FacebookLoginBehavior.webOnly], the WKViewController
+  /// managed by Safari remembers the user indefinitely.
+  ///
+  /// This blocks the user from logging in with any other account than the one
+  /// they used the first time. This same issue is also present when using
+  /// [FacebookLoginBehavior.nativeWithFallback] in the case where the user
+  /// doesn't have a native Facebook app installed.
+  ///
+  /// Using [FacebookLoginBehavior.webViewOnly] resolves this issue.
+  ///
+  /// For more, see: https://github.com/roughike/flutter_facebook_login/issues/4
   Future<Null> logOut() async => channel.invokeMethod('logOut');
 
   String _currentLoginBehaviorAsString() {
@@ -169,6 +183,8 @@ enum FacebookLoginBehavior {
   /// to using the web browser based auth dialog.
   ///
   /// This is the default login behavior.
+  ///
+  /// Might have logout issues on iOS; see the [FacebookLogin.logOut] documentation.
   nativeWithFallback,
 
   /// Login dialog should be rendered by the native Android or iOS Facebook app
@@ -182,6 +198,8 @@ enum FacebookLoginBehavior {
   nativeOnly,
 
   /// Login dialog should be rendered by using a web browser.
+  ///
+  /// Might have logout issues on iOS; see the [FacebookLogin.logOut] documentation.
   webOnly,
 
   /// Login dialog should be rendered by using a WebView.
