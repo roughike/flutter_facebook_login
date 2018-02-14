@@ -163,9 +163,9 @@
   }
 }
 
-- (NSDictionary *)accessTokenToMap:(FBSDKAccessToken *)accessToken {
+- (id)accessTokenToMap:(FBSDKAccessToken *)accessToken {
   if (accessToken == nil) {
-    return nil;
+    return [NSNull null];
   }
 
   NSString *userId = [accessToken userID];

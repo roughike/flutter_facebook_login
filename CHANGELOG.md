@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Fixed potential crash and documented iOS logout issues when using the webOnly login behavior.
+
 ## 1.0.2
 
 * Added new `isLoggedIn` and `currentAccessToken` getters which make it easier to log the user in automatically.
