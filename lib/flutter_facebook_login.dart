@@ -23,17 +23,10 @@ import 'package:flutter/services.dart';
 ///     _showLoggedInUI();
 ///     break;
 ///   case FacebookLoginStatus.cancelledByUser:
-///     _showConvincingMessageOnUI(
-///       'It\'s okay, you can trust us! ' // no you can't
-///       'We won\'t do bad things with your Facebook profile. ' // yes we will
-///       'Scout\'s honor.' // not actually a Boy Scout
-///     );
+///     _showConvincingMessageOnUI();
 ///     break;
 ///   case FacebookLoginStatus.error:
-///     _showErrorOnUI(
-///       'Something went wrong with the login process.\n'
-///       'Here\'s the error Facebook gave us: ${result.errorMessage}'
-///     );
+///     _showErrorOnUI();
 ///     break;
 /// }
 ///
