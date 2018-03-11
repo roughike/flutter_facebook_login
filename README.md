@@ -44,6 +44,8 @@ You can also change the visual appearance of the login dialog. For example:
 facebookLogin.loginBehavior = FacebookLoginBehavior.webViewOnly;
 ```
 
+The complete API documentation lives with the source code, [which can be found here](https://github.com/roughike/flutter_facebook_login/blob/master/lib/flutter_facebook_login.dart).
+
 ## Installation
 
 To get things up and running, you'll have to declare a pubspec dependency in your Flutter project.
