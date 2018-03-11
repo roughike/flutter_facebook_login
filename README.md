@@ -21,8 +21,7 @@ Since sample code is worth more than one page of documentation, here are the usu
 
 ```dart
 var facebookLogin = new FacebookLogin();
-FacebookLoginResult result =
-  await facebookLogin.logInWithReadPermissions(['email']);
+var result = await facebookLogin.logInWithReadPermissions(['email']);
 
 switch (result.status) {
   case FacebookLoginStatus.loggedIn:
