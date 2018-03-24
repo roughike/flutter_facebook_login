@@ -1,3 +1,7 @@
+## 1.1.0
+
+* Dart 2 support! There should not be any breaking changes. Please do file issues if you have problems.
+
 ## 1.0.3
 
 * Fixed potential crash and documented iOS logout issues when using the webOnly login behavior.

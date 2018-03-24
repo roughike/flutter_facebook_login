@@ -13,6 +13,11 @@ I created this library out of necessity, as there was nothing that fit my needs 
 needed something that was well tested, offered as much control as the native Facebook SDKs, and also
 had good code quality.
 
+## Dart support
+
+* Dart 1: 1.0.x.
+* Dart 2: 1.1.0 and up.
+
 ## How do I use it?
 
 The library tries to closely match the native Android & iOS login SDK APIs where possible. For complete API documentation, just see the [source code](https://github.com/roughike/flutter_facebook_login/blob/master/lib/flutter_facebook_login.dart). Everything is documented there.
