@@ -76,14 +76,14 @@ class FacebookLogin {
   ///
   /// If the user is not logged in, this returns null.
   Future<FacebookAccessToken> get currentAccessToken async {
-    final Map<String, dynamic> accessToken =
+    final Map<dynamic, dynamic> accessToken =
         await channel.invokeMethod('getCurrentAccessToken');
 
     if (accessToken == null) {
       return null;
     }
 
-    return new FacebookAccessToken.fromMap(accessToken);
+    return new FacebookAccessToken.fromMap(accessToken.cast<String, dynamic>());
   }
 
   /// Logs the user in with the requested read permissions.
@@ -97,13 +97,13 @@ class FacebookLogin {
   Future<FacebookLoginResult> logInWithReadPermissions(
     List<String> permissions,
   ) async {
-    final Map<String, dynamic> result =
+    final Map<dynamic, dynamic> result =
         await channel.invokeMethod('loginWithReadPermissions', {
       'behavior': _currentLoginBehaviorAsString(),
       'permissions': permissions,
     });
 
-    return new FacebookLoginResult._(result);
+    return new FacebookLoginResult._(result.cast<String, dynamic>());
   }
 
   /// Logs the user in with the requested publish permissions.
@@ -123,13 +123,13 @@ class FacebookLogin {
   Future<FacebookLoginResult> loginWithPublishPermissions(
     List<String> permissions,
   ) async {
-    final Map<String, dynamic> result =
+    final Map<dynamic, dynamic> result =
         await channel.invokeMethod('loginWithPublishPermissions', {
       'behavior': _currentLoginBehaviorAsString(),
       'permissions': permissions,
     });
 
-    return new FacebookLoginResult._(result);
+    return new FacebookLoginResult._(result.cast<String, dynamic>());
   }
 
   /// Logs the currently logged in user out.
@@ -147,7 +147,7 @@ class FacebookLogin {
   /// Using [FacebookLoginBehavior.webViewOnly] resolves this issue.
   ///
   /// For more, see: https://github.com/roughike/flutter_facebook_login/issues/4
-  Future<Null> logOut() async => channel.invokeMethod('logOut');
+  void logOut() async => channel.invokeMethod('logOut');
 
   String _currentLoginBehaviorAsString() {
     assert(_loginBehavior != null, 'The login behavior was unexpectedly null.');
@@ -231,7 +231,9 @@ class FacebookLoginResult {
   FacebookLoginResult._(Map<String, dynamic> map)
       : status = _parseStatus(map['status']),
         accessToken = map['accessToken'] != null
-            ? new FacebookAccessToken.fromMap(map['accessToken'])
+            ? new FacebookAccessToken.fromMap(
+                map['accessToken'].cast<String, dynamic>(),
+              )
             : null,
         errorMessage = map['errorMessage'];
 
@@ -303,8 +305,8 @@ class FacebookAccessToken {
           map['expires'],
           isUtc: true,
         ),
-        permissions = map['permissions'],
-        declinedPermissions = map['declinedPermissions'];
+        permissions = map['permissions'].cast<String>(),
+        declinedPermissions = map['declinedPermissions'].cast<String>();
 
   /// Transforms this access token to a [Map].
   ///
