@@ -147,7 +147,7 @@ class FacebookLogin {
   /// Using [FacebookLoginBehavior.webViewOnly] resolves this issue.
   ///
   /// For more, see: https://github.com/roughike/flutter_facebook_login/issues/4
-  void logOut() async => channel.invokeMethod('logOut');
+  Future<void> logOut() async => channel.invokeMethod('logOut');
 
   String _currentLoginBehaviorAsString() {
     assert(_loginBehavior != null, 'The login behavior was unexpectedly null.');
