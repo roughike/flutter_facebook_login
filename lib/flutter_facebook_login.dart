@@ -103,7 +103,8 @@ class FacebookLogin {
       'permissions': permissions,
     });
 
-    return new FacebookLoginResult._(result.cast<String, dynamic>());
+    return _deliverResult(
+        new FacebookLoginResult._(result.cast<String, dynamic>()));
   }
 
   /// Logs the user in with the requested publish permissions.
@@ -129,7 +130,8 @@ class FacebookLogin {
       'permissions': permissions,
     });
 
-    return new FacebookLoginResult._(result.cast<String, dynamic>());
+    return _deliverResult(
+        new FacebookLoginResult._(result.cast<String, dynamic>()));
   }
 
   /// Logs the currently logged in user out.
@@ -164,6 +166,19 @@ class FacebookLogin {
     }
 
     throw new StateError('Invalid login behavior.');
+  }
+
+  /// There's a weird bug where calling Navigator.push (or any similar method)
+  /// straight after getting a result from the method channel causes the app
+  /// to hang.
+  ///
+  /// As a hack/workaround, we add a new task to the task queue with a slight
+  /// delay, using the [Future.delayed] constructor.
+  ///
+  /// For more context, see this issue:
+  /// https://github.com/roughike/flutter_facebook_login/issues/14
+  Future<T> _deliverResult<T>(T result) {
+    return new Future.delayed(const Duration(milliseconds: 500), () => result);
   }
 }
 
