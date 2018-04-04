@@ -1,3 +1,7 @@
+## 1.1.1
+
+* Fix occasional hangs/freezes by introducing a slight artifical delay after getting the result from Facebook login.
+
 ## 1.1.0
 
 * Dart 2 support! There should not be any breaking changes. Please do file issues if you have problems.
