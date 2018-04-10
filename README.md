@@ -51,6 +51,32 @@ facebookLogin.loginBehavior = FacebookLoginBehavior.webViewOnly;
 
 The complete API documentation lives with the source code, [which can be found here](https://github.com/roughike/flutter_facebook_login/blob/master/lib/flutter_facebook_login.dart).
 
+### Getting the Facebook profile of a signed in user
+
+For now, this feature isn't going to be integrated into this plugin. See the [discussion here](https://github.com/roughike/flutter_facebook_login/issues/11).
+
+However, you can get do this in four lines of Dart code:
+
+```dart
+var result = await facebookSignIn.logInWithReadPermissions(['email']);
+var accessToken = result.accessToken;
+var graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${accessToken.token}');
+var profile = JSON.decode(graphResponse.body);
+```
+
+The `profile` variable will now contain the following information:
+
+```json
+{
+   "name": "Iiro Krankka",
+   "first_name": "Iiro",
+   "last_name": "Krankka",
+   "email": "iiro.krankka\u0040gmail.com",
+   "id": "<user id here>"
+}
+```
+
 ## Installation
 
 To get things up and running, you'll have to declare a pubspec dependency in your Flutter project.
