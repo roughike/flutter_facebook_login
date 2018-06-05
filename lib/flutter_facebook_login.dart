@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
 
 /// FacebookLogin is a plugin for authenticating your users using the native
@@ -345,8 +346,11 @@ class FacebookAccessToken {
           token == other.token &&
           userId == other.userId &&
           expires == other.expires &&
-          permissions == other.permissions &&
-          declinedPermissions == other.declinedPermissions;
+          const IterableEquality().equals(permissions, other.permissions) &&
+          const IterableEquality().equals(
+            declinedPermissions,
+            other.declinedPermissions,
+          );
 
   @override
   int get hashCode =>
