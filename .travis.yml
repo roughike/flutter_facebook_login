@@ -15,7 +15,7 @@ before_script:
   - gem install coveralls-lcov
 
 script:
-  - ./flutter/bin/flutter test --preview-dart-2 --coverage
+  - ./flutter/bin/flutter test --coverage
 
 after_success:
   - coveralls-lcov coverage/lcov.info
