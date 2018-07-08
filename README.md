@@ -25,6 +25,8 @@ The library tries to closely match the native Android & iOS login SDK APIs where
 Since sample code is worth more than one page of documentation, here are the usual cases covered:
 
 ```dart
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+
 var facebookLogin = new FacebookLogin();
 var result = await facebookLogin.logInWithReadPermissions(['email']);
 
