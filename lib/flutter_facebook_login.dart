@@ -99,7 +99,7 @@ class FacebookLogin {
     List<String> permissions,
   ) async {
     final Map<dynamic, dynamic> result =
-        await channel.invokeMethod('loginWithReadPermissions', {
+        await channel.invokeMethod('logInWithReadPermissions', {
       'behavior': _currentLoginBehaviorAsString(),
       'permissions': permissions,
     });
