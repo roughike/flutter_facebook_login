@@ -109,7 +109,10 @@ First, copy-paste the following to your strings resource file. If you don't have
     <!-- Replace "000000000000" with your Facebook App ID here. -->
     <string name="facebook_app_id">000000000000</string>
     
-    <!-- Replace "000000000000" with your Facebook App ID here. -->
+    <!--
+      Replace "000000000000" with your Facebook App ID here.
+      **NOTE**: The scheme needs to start with `fb` and then your ID.
+    -->
     <string name="fb_login_protocol_scheme">fb000000000000</string>
 </resources>
 ```
@@ -147,6 +150,7 @@ Done!
 
 This assumes that you've done the _"Register and Configure Your App with Facebook"_ step in the 
 [the Facebook Login documentation for iOS site](https://developers.facebook.com/docs/facebook-login/ios).
+(**Note**: you can skip "Step 2: Set up Your Development Environment").
 
 After you've done that, find out what your _Facebook App ID_ is. You can find your Facebook App ID in your Facebook App's dashboard in the Facebook developer console.
  
@@ -160,7 +164,10 @@ Once you have the Facebook App ID figured out, then you'll just have to copy-pas
     <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-            <!-- Replace "000000000000" with your Facebook App ID here. -->
+            <!--
+              Replace "000000000000" with your Facebook App ID here.
+              **NOTE**: The scheme needs to start with `fb` and then your ID.
+            -->
             <string>fb000000000000</string>
         </array>
     </dict>
