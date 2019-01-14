@@ -27,8 +27,8 @@ Since sample code is worth more than one page of documentation, here are the usu
 ```dart
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
-var facebookLogin = new FacebookLogin();
-var result = await facebookLogin.logInWithReadPermissions(['email']);
+final facebookLogin = FacebookLogin();
+final result = await facebookLogin.logInWithReadPermissions(['email']);
 
 switch (result.status) {
   case FacebookLoginStatus.loggedIn:
@@ -60,11 +60,11 @@ For now, this feature isn't going to be integrated into this plugin. See the [di
 However, you can get do this in four lines of Dart code:
 
 ```dart
-var result = await facebookSignIn.logInWithReadPermissions(['email']);
-var accessToken = result.accessToken;
-var graphResponse = await http.get(
+final result = await facebookSignIn.logInWithReadPermissions(['email']);
+final accessToken = result.accessToken;
+final graphResponse = await http.get(
             'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${accessToken.token}');
-var profile = JSON.decode(graphResponse.body);
+final profile = JSON.decode(graphResponse.body);
 ```
 
 The `profile` variable will now contain the following information:
