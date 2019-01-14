@@ -2,6 +2,7 @@ package com.roughike.facebooklogin.facebooklogin;
 
 import android.content.Intent;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -35,7 +36,7 @@ class FacebookLoginResultDelegate implements FacebookCallback<LoginResult>, Plug
 
     @Override
     public void onSuccess(LoginResult result) {
-        finishWithResult(FacebookLoginResults.success(result));
+        finishWithResult(FacebookLoginResults.success(result.getAccessToken()));
     }
 
     @Override
