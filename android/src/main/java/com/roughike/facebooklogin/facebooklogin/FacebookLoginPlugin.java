@@ -115,18 +115,22 @@ public class FacebookLoginPlugin implements MethodCallHandler {
 
         public void logInWithReadPermissions(
                 LoginBehavior loginBehavior, List<String> permissions, Result result) {
-            resultDelegate.setPendingResult(METHOD_LOG_IN_WITH_READ_PERMISSIONS, result);
+            if (!canUseExistingToken(result)) {
+                resultDelegate.setPendingResult(METHOD_LOG_IN_WITH_READ_PERMISSIONS, result);
 
-            loginManager.setLoginBehavior(loginBehavior);
-            loginManager.logInWithReadPermissions(registrar.activity(), permissions);
+                loginManager.setLoginBehavior(loginBehavior);
+                loginManager.logInWithReadPermissions(registrar.activity(), permissions);
+            }
         }
 
         public void logInWithPublishPermissions(
                 LoginBehavior loginBehavior, List<String> permissions, Result result) {
-            resultDelegate.setPendingResult(METHOD_LOG_IN_WITH_PUBLISH_PERMISSIONS, result);
+            if (!canUseExistingToken(result)) {
+                resultDelegate.setPendingResult(METHOD_LOG_IN_WITH_PUBLISH_PERMISSIONS, result);
 
-            loginManager.setLoginBehavior(loginBehavior);
-            loginManager.logInWithPublishPermissions(registrar.activity(), permissions);
+                loginManager.setLoginBehavior(loginBehavior);
+                loginManager.logInWithPublishPermissions(registrar.activity(), permissions);
+            }
         }
 
         public void logOut(Result result) {
@@ -139,6 +143,15 @@ public class FacebookLoginPlugin implements MethodCallHandler {
             Map<String, Object> tokenMap = FacebookLoginResults.accessToken(accessToken);
 
             result.success(tokenMap);
+        }
+
+        private boolean canUseExistingToken(Result result) {
+            if (AccessToken.isCurrentAccessTokenActive()) {
+                result.success(FacebookLoginResults.success(AccessToken.getCurrentAccessToken()));
+                return true;
+            }
+
+            return false;
         }
     }
 }
