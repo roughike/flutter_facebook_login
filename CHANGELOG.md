@@ -4,7 +4,7 @@
 * Fix failing `equals()` in `FacebookAccessToken`
 * Fix "could not find class 'android.view.autofill.AutofillManager'" error on Android
 * Fix the "{com.facebook.sdk:FBSDKErrorDeveloperMessageKey=Unknown error building URL.}" error on iOS
-* Add method for checking if the current access token is valid
+* Add `FacebookAccessToken#isValid()` for checking if the access token is expired or not
 
 **Breaking change:**
 
