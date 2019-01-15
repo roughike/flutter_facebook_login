@@ -1,3 +1,15 @@
+## 1.2.0
+
+* Update Android & iOS Facebook Login dependencies
+* Fix failing `equals()` in `FacebookAccessToken`
+* Fix "could not find class 'android.view.autofill.AutofillManager'" error on Android
+* Fix the "{com.facebook.sdk:FBSDKErrorDeveloperMessageKey=Unknown error building URL.}" error on iOS
+* Add `FacebookAccessToken#isValid()` for checking if the access token is expired or not
+
+**Breaking change:**
+
+The `FacebookLogin#isLoggedIn` now checks if the `currentAccessToken` is expired or not, while it previously only checked if `currentAccessToken` was non-null.
+
 ## 1.1.1
 
 * Fix occasional hangs/freezes by introducing a slight artifical delay after getting the result from Facebook login.
