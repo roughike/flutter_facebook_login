@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
+import 'src/clock.dart';
 
 /// FacebookLogin is a plugin for authenticating your users using the native
 /// Android & iOS Facebook Login SDKs.
@@ -45,17 +46,20 @@ class FacebookLogin {
   /// For example, setting this to [FacebookLoginBehavior.webViewOnly] will
   /// render the login dialog using a WebView.
   ///
-  /// Updating the login behavior won't do anything immediately; the value is
-  /// taken into account just before the login dialog is about to show.
+  /// NOTE: Updating the login behavior won't do anything immediately; the value
+  /// is taken into account just before the login dialog is about to show.
   set loginBehavior(FacebookLoginBehavior behavior) {
     assert(behavior != null, 'The login behavior cannot be null.');
     _loginBehavior = behavior;
   }
 
-  /// Returns whether the user is currently logged in or not.
+  /// Returns whether the user is currently logged in and the access token is
+  /// still valid or not.
   ///
-  /// Convenience method for checking if the [currentAccessToken] is null.
-  Future<bool> get isLoggedIn async => await currentAccessToken != null;
+  /// Convenience method for checking if the [currentAccessToken] is null and not
+  /// expired.
+  Future<bool> get isLoggedIn async =>
+      (await currentAccessToken)?.isValid() ?? false;
 
   /// Retrieves the current access token for the application.
   ///
@@ -65,16 +69,17 @@ class FacebookLogin {
   /// For example:
   ///
   /// ```dart
-  /// final FacebookAccessToken accessToken = await facebookLogin.currentAccessToken;
+  /// final accessToken = await facebookLogin.currentAccessToken;
   ///
-  /// if (accessToken != null) {
+  /// if (accessToken != null && accessToken.isValid()) {
   ///   _fetchFacebookNewsFeed(accessToken);
   /// } else {
   ///   _showLoginRequiredUI();
   /// }
   /// ```
   ///
-  /// If the user is not logged in, this returns null.
+  /// NOTE: This might return an access token that has expired. If you need to be
+  /// sure that the token is still valid, call [isValid] on the access token.
   Future<FacebookAccessToken> get currentAccessToken async {
     final Map<dynamic, dynamic> accessToken =
         await channel.invokeMethod('getCurrentAccessToken');
@@ -309,10 +314,15 @@ class FacebookAccessToken {
   /// permissions have changed since the last login.
   final List<String> declinedPermissions;
 
+  /// Is this access token expired or not?
+  ///
+  /// If the access token has not been expired yet, returns true. Otherwise,
+  /// returns false.
+  bool isValid() => Clock.now().isBefore(expires);
+
   /// Constructs a access token instance from a [Map].
   ///
-  /// This is used mostly internally by this library, but could be useful if
-  /// storing the token locally by using the [toMap] method.
+  /// This is used mostly internally by this library.
   FacebookAccessToken.fromMap(Map<String, dynamic> map)
       : token = map['token'],
         userId = map['userId'],
@@ -325,8 +335,7 @@ class FacebookAccessToken {
 
   /// Transforms this access token to a [Map].
   ///
-  /// This could be useful for encoding this access token as JSON and then
-  /// storing it locally.
+  /// This is used mostly internally by this library.
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'token': token,
