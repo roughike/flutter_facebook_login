@@ -14,7 +14,8 @@ class FacebookLoginResults {
         put("status", "cancelledByUser");
     }};
 
-    static Map<String, Object> success(AccessToken accessToken) {
+    static Map<String, Object> success(LoginResult loginResult) {
+        final AccessToken accessToken = loginResult.getAccessToken();
         final Map<String, Object> accessTokenMap = FacebookLoginResults.accessToken(accessToken);
 
         return new HashMap<String, Object>() {{

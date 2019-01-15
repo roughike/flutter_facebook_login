@@ -95,12 +95,6 @@ class FacebookLogin {
   /// Returns a [FacebookLoginResult] that contains relevant information about
   /// the current login status. For sample code, see the [FacebookLogin] class-
   /// level documentation.
-  ///
-  /// NOTE: If the user has already logged in, and the Facebook access token
-  /// hasn't expired yet, calling this method again returns the access token for
-  /// the currently logged in user. If you want the login dialog pop up instead,
-  /// you should call [logout] first - and you should call [logout] anyway whenever
-  /// the user logs out from your app.
   Future<FacebookLoginResult> logInWithReadPermissions(
     List<String> permissions,
   ) async {
@@ -128,12 +122,6 @@ class FacebookLogin {
   /// Returns a [FacebookLoginResult] that contains relevant information about
   /// the current login status. For sample code, see the [FacebookLogin] class-
   /// level documentation.
-  ///
-  /// NOTE: If the user has already logged in, and the Facebook access token
-  /// hasn't expired yet, calling this method again returns the access token for
-  /// the currently logged in user. If you want the login dialog pop up instead,
-  /// you should call [logout] first - and you should call [logout] anyway whenever
-  /// the user logs out from your app.
   Future<FacebookLoginResult> loginWithPublishPermissions(
     List<String> permissions,
   ) async {
