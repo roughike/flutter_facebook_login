@@ -14,8 +14,8 @@ import 'package:flutter/services.dart';
 /// cases:
 ///
 /// ```dart
-/// FacebookLogin facebookLogin = new FacebookLogin();
-/// FacebookLoginResult result =
+/// final facebookLogin = FacebookLogin();
+/// final result =
 ///   await facebookLogin.logInWithReadPermissions(['email']);
 ///
 /// switch (result.status) {
@@ -35,8 +35,7 @@ import 'package:flutter/services.dart';
 /// and iOS clients. See the README for detailed instructions.
 /// ```
 class FacebookLogin {
-  static const MethodChannel channel =
-      const MethodChannel('com.roughike/flutter_facebook_login');
+  static const channel = MethodChannel('com.roughike/flutter_facebook_login');
 
   FacebookLoginBehavior _loginBehavior =
       FacebookLoginBehavior.nativeWithFallback;
@@ -84,7 +83,7 @@ class FacebookLogin {
       return null;
     }
 
-    return new FacebookAccessToken.fromMap(accessToken.cast<String, dynamic>());
+    return FacebookAccessToken.fromMap(accessToken.cast<String, dynamic>());
   }
 
   /// Logs the user in with the requested read permissions.
@@ -105,7 +104,7 @@ class FacebookLogin {
     });
 
     return _deliverResult(
-        new FacebookLoginResult._(result.cast<String, dynamic>()));
+        FacebookLoginResult._(result.cast<String, dynamic>()));
   }
 
   /// Logs the user in with the requested publish permissions.
@@ -132,7 +131,7 @@ class FacebookLogin {
     });
 
     return _deliverResult(
-        new FacebookLoginResult._(result.cast<String, dynamic>()));
+        FacebookLoginResult._(result.cast<String, dynamic>()));
   }
 
   /// Logs the currently logged in user out.
@@ -166,7 +165,7 @@ class FacebookLogin {
         return 'webViewOnly';
     }
 
-    throw new StateError('Invalid login behavior.');
+    throw StateError('Invalid login behavior.');
   }
 
   /// There's a weird bug where calling Navigator.push (or any similar method)
@@ -179,7 +178,7 @@ class FacebookLogin {
   /// For more context, see this issue:
   /// https://github.com/roughike/flutter_facebook_login/issues/14
   Future<T> _deliverResult<T>(T result) {
-    return new Future.delayed(const Duration(milliseconds: 500), () => result);
+    return Future.delayed(const Duration(milliseconds: 500), () => result);
   }
 }
 
@@ -247,7 +246,7 @@ class FacebookLoginResult {
   FacebookLoginResult._(Map<String, dynamic> map)
       : status = _parseStatus(map['status']),
         accessToken = map['accessToken'] != null
-            ? new FacebookAccessToken.fromMap(
+            ? FacebookAccessToken.fromMap(
                 map['accessToken'].cast<String, dynamic>(),
               )
             : null,
@@ -263,7 +262,7 @@ class FacebookLoginResult {
         return FacebookLoginStatus.error;
     }
 
-    throw new StateError('Invalid status: $status');
+    throw StateError('Invalid status: $status');
   }
 }
 
@@ -310,14 +309,14 @@ class FacebookAccessToken {
   /// permissions have changed since the last login.
   final List<String> declinedPermissions;
 
-  /// Constructs a new access token instance from a [Map].
+  /// Constructs a access token instance from a [Map].
   ///
   /// This is used mostly internally by this library, but could be useful if
   /// storing the token locally by using the [toMap] method.
   FacebookAccessToken.fromMap(Map<String, dynamic> map)
       : token = map['token'],
         userId = map['userId'],
-        expires = new DateTime.fromMillisecondsSinceEpoch(
+        expires = DateTime.fromMillisecondsSinceEpoch(
           map['expires'],
           isUtc: true,
         ),
