@@ -1,3 +1,7 @@
+## 1.3.0
+
+* Support Android X. There might be build issue when using this version. If it so, you either migrate to Android X or using previous version.
+
 ## 1.2.0
 
 * Update Android & iOS Facebook Login dependencies
