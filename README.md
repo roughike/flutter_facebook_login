@@ -6,6 +6,11 @@
 
 A Flutter plugin for using the native Facebook Login SDKs on Android and iOS.
 
+## AndroidX support
+
+* if you want to **avoid AndroidX**, use version 1.2.0.
+* for [AndroidX Flutter projects](https://flutter.dev/docs/development/packages-and-plugins/androidx-compatibility), use versions 2.0.0 and up.
+
 ## Installation
 
 To get things up and running, you'll have to declare a pubspec dependency in your Flutter project.
