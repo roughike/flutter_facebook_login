@@ -4,8 +4,9 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:simple_permissions/simple_permissions.dart';
+
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 void main() => runApp(new MyApp());
@@ -17,6 +18,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   static final FacebookLogin facebookSignIn = new FacebookLogin();
+  Permission permission;
 
   String _message = 'Log in/out by pressing the buttons below.';
 
@@ -57,6 +59,21 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+
+
+
+  @override
+  void initState(){
+    super.initState();
+  }
+
+
+  Future<void> requestPermission() async{
+    final result = await SimplePermissions.requestPermission(Permission.ReadExternalStorage);
+    print("request :"+ result.toString());
+  }
+
+
   Future<Null> _onShareFacebook() async{
     try {
       final ByteData bytes = await rootBundle.load('assets/image.jpeg');
@@ -70,6 +87,25 @@ class _MyAppState extends State<MyApp> {
     } catch (e) {
       print('Share error: $e');
     }
+  }
+
+  Future<Null> _onShareonInstagram() async{
+    if (Platform.isIOS){
+
+    }else {
+      await requestPermission();
+      try {
+        final ByteData bytes = await rootBundle.load('assets/image.jpeg');
+        final Uint8List list = bytes.buffer.asUint8List();
+        final tempDir = await getExternalStorageDirectory();
+        final file = await new File('${tempDir.path}/image.jpeg').create();
+        file.writeAsBytesSync(list);
+        await facebookSignIn.shareContentIg(file.path);
+      } catch (e) {
+        print('Share error: $e');
+      }
+    }
+
   }
 
   @override
@@ -95,6 +131,10 @@ class _MyAppState extends State<MyApp> {
               new RaisedButton(
                 onPressed: _onShareFacebook,
                 child: new Text('ShareImageFacebook'),
+              ),
+              new RaisedButton(
+                onPressed: _onShareonInstagram,
+                child: new Text('Share Instagram image'),
               ),
             ],
           ),

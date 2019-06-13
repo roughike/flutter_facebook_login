@@ -160,6 +160,10 @@ class FacebookLogin {
     channel.invokeMethod('shareImageFacebook', share);
   }
 
+  Future<void> shareContentIg(String share) async{
+    channel.invokeMethod('shareImageInstagram', share);
+  }
+
   String _currentLoginBehaviorAsString() {
     assert(_loginBehavior != null, 'The login behavior was unexpectedly null.');
 
