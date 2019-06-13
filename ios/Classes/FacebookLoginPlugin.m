@@ -1,6 +1,11 @@
 #import "FacebookLoginPlugin.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import <FBSDKShareKit/FBSDKShareDialog.h>
+#import <FBSDKShareKit/FBSDKSharePhoto.h>
+#import <FBSDKShareKit/FBSDKSharePhotoContent.h>
+
+
 
 @implementation FacebookLoginPlugin {
   FBSDKLoginManager *loginManager;
@@ -22,7 +27,7 @@
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+    
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
   return YES;
@@ -74,9 +79,29 @@
     [self logOut:result];
   } else if ([@"getCurrentAccessToken" isEqualToString:call.method]) {
     [self getCurrentAccessToken:result];
+  }else if ([@"shareImageFacebook" isEqualToString:call.method]) {
+      [self shareFile:call.arguments
+       withController:[UIApplication sharedApplication].keyWindow.rootViewController];
   } else {
     result(FlutterMethodNotImplemented);
   }
+}
+
+- (void)shareFile:(id)sharedItems withController:(UIViewController *)controller {
+    NSMutableString *filePath = [NSMutableString stringWithString:sharedItems];
+    NSString *docsPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *imagePath = [docsPath stringByAppendingPathComponent:filePath];
+    NSURL *imageUrl = [NSURL fileURLWithPath:imagePath];
+    NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
+    UIImage *shareImage = [UIImage imageWithData:imageData];
+    FBSDKSharePhoto *photo = [[FBSDKSharePhoto alloc] init];
+    photo.image = shareImage;
+    photo.userGenerated = YES;
+    FBSDKSharePhotoContent *content = [[FBSDKSharePhotoContent alloc] init];
+    content.photos = @[photo];
+    [FBSDKShareDialog showFromViewController:controller
+                                 withContent:content
+                                    delegate:nil];
 }
 
 - (FBSDKLoginBehavior)loginBehaviorFromString:(NSString *)loginBehaviorStr {
