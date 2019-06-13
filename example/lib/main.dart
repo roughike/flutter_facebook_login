@@ -2,7 +2,12 @@ import 'dart:async';
 
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatefulWidget {
@@ -18,7 +23,6 @@ class _MyAppState extends State<MyApp> {
   Future<Null> _login() async {
     final FacebookLoginResult result =
         await facebookSignIn.logInWithReadPermissions(['email']);
-
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         final FacebookAccessToken accessToken = result.accessToken;
@@ -53,6 +57,21 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<Null> _onShareFacebook() async{
+    try {
+      final ByteData bytes = await rootBundle.load('assets/image.jpeg');
+      final Uint8List list = bytes.buffer.asUint8List();
+
+      final tempDir = await getTemporaryDirectory();
+      final file = await new File('${tempDir.path}/image.jpeg').create();
+      file.writeAsBytesSync(list);
+
+      await facebookSignIn.shareContent('image.jpeg');
+    } catch (e) {
+      print('Share error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -72,6 +91,10 @@ class _MyAppState extends State<MyApp> {
               new RaisedButton(
                 onPressed: _logOut,
                 child: new Text('Logout'),
+              ),
+              new RaisedButton(
+                onPressed: _onShareFacebook,
+                child: new Text('ShareImageFacebook'),
               ),
             ],
           ),

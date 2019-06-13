@@ -5,6 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -27,12 +28,15 @@ android {
     defaultConfig {
         minSdkVersion 16
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [facebook_content_provider: "com.facebook.app.FacebookContentProvider950110338385665"]
     }
     lintOptions {
         disable 'InvalidPackage'
     }
 }
 
+
 dependencies {
     api 'com.facebook.android:facebook-login:4.39.0'
+    api 'com.facebook.android:facebook-share:[5,6)'
 }

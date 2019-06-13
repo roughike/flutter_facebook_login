@@ -1,20 +1,40 @@
 package com.roughike.facebooklogin.facebooklogin;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+
+
+import androidx.core.content.FileProvider;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.ShareMediaContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.widget.ShareDialog;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
-public class FacebookLoginPlugin implements MethodCallHandler {
+
+public class FacebookLoginPlugin implements MethodCallHandler  {
     private static final String CHANNEL_NAME = "com.roughike/flutter_facebook_login";
 
     private static final String ERROR_UNKNOWN_LOGIN_BEHAVIOR = "unknown_login_behavior";
@@ -23,6 +43,7 @@ public class FacebookLoginPlugin implements MethodCallHandler {
     private static final String METHOD_LOG_IN_WITH_PUBLISH_PERMISSIONS = "loginWithPublishPermissions";
     private static final String METHOD_LOG_OUT = "logOut";
     private static final String METHOD_GET_CURRENT_ACCESS_TOKEN = "getCurrentAccessToken";
+    private static final String METHOD_SHARE_FACEBOOK = "shareImageFacebook";
 
     private static final String ARG_LOGIN_BEHAVIOR = "behavior";
     private static final String ARG_PERMISSIONS = "permissions";
@@ -54,14 +75,12 @@ public class FacebookLoginPlugin implements MethodCallHandler {
                 loginBehaviorStr = call.argument(ARG_LOGIN_BEHAVIOR);
                 loginBehavior = loginBehaviorFromString(loginBehaviorStr, result);
                 List<String> readPermissions = call.argument(ARG_PERMISSIONS);
-
                 delegate.logInWithReadPermissions(loginBehavior, readPermissions, result);
                 break;
             case METHOD_LOG_IN_WITH_PUBLISH_PERMISSIONS:
                 loginBehaviorStr = call.argument(ARG_LOGIN_BEHAVIOR);
                 loginBehavior = loginBehaviorFromString(loginBehaviorStr, result);
                 List<String> publishPermissions = call.argument(ARG_PERMISSIONS);
-
                 delegate.logInWithPublishPermissions(loginBehavior, publishPermissions, result);
                 break;
             case METHOD_LOG_OUT:
@@ -70,11 +89,17 @@ public class FacebookLoginPlugin implements MethodCallHandler {
             case METHOD_GET_CURRENT_ACCESS_TOKEN:
                 delegate.getCurrentAccessToken(result);
                 break;
+            case METHOD_SHARE_FACEBOOK:
+                delegate.shareFile((String) call.arguments);
+                break;
             default:
                 result.notImplemented();
                 break;
         }
     }
+
+
+
 
     private LoginBehavior loginBehaviorFromString(String loginBehavior, Result result) {
         switch (loginBehavior) {
@@ -108,9 +133,19 @@ public class FacebookLoginPlugin implements MethodCallHandler {
             this.callbackManager = CallbackManager.Factory.create();
             this.loginManager = LoginManager.getInstance();
             this.resultDelegate = new FacebookLoginResultDelegate(callbackManager);
-
             loginManager.registerCallback(callbackManager, resultDelegate);
+
             registrar.addActivityResultListener(resultDelegate);
+        }
+
+        public void shareFile(String path) {
+            File imageFile = new File(registrar.activity().getApplicationContext().getCacheDir(), path);
+            String completePath = imageFile.getPath();
+            Bitmap bitmap = BitmapFactory.decodeFile(completePath);
+            SharePhoto sharePhoto = new SharePhoto.Builder().setBitmap(bitmap).build();
+            ShareContent shareContent = new ShareMediaContent.Builder().addMedium(sharePhoto).build();
+            ShareDialog shareDialog = new ShareDialog(registrar.activity());
+            shareDialog.show(shareContent, ShareDialog.Mode.AUTOMATIC);
         }
 
         public void logInWithReadPermissions(
@@ -128,6 +163,8 @@ public class FacebookLoginPlugin implements MethodCallHandler {
             loginManager.setLoginBehavior(loginBehavior);
             loginManager.logInWithPublishPermissions(registrar.activity(), permissions);
         }
+
+
 
         public void logOut(Result result) {
             loginManager.logOut();

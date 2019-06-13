@@ -156,6 +156,10 @@ class FacebookLogin {
   /// For more, see: https://github.com/roughike/flutter_facebook_login/issues/4
   Future<void> logOut() async => channel.invokeMethod('logOut');
 
+  Future<void> shareContent(String share) async {
+    channel.invokeMethod('shareImageFacebook', share);
+  }
+
   String _currentLoginBehaviorAsString() {
     assert(_loginBehavior != null, 'The login behavior was unexpectedly null.');
 
