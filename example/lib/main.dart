@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:simple_permissions/simple_permissions.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 void main() => runApp(new MyApp());
@@ -18,7 +17,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   static final FacebookLogin facebookSignIn = new FacebookLogin();
-  Permission permission;
 
   String _message = 'Log in/out by pressing the buttons below.';
 
@@ -69,8 +67,7 @@ class _MyAppState extends State<MyApp> {
 
 
   Future<void> requestPermission() async{
-    final result = await SimplePermissions.requestPermission(Permission.ReadExternalStorage);
-    print("request :"+ result.toString());
+    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
   }
 
 
@@ -91,7 +88,16 @@ class _MyAppState extends State<MyApp> {
 
   Future<Null> _onShareonInstagram() async{
     if (Platform.isIOS){
-
+      try {
+        final ByteData bytes = await rootBundle.load('assets/image.jpeg');
+        final Uint8List list = bytes.buffer.asUint8List();
+        final tempDir = await getApplicationSupportDirectory();
+        final file = await new File('${tempDir.path}/image.igo').create();
+        file.writeAsBytesSync(list);
+        await facebookSignIn.shareContentIg('image.igo');
+      } catch (e) {
+        print('Share error: $e');
+      }
     }else {
       await requestPermission();
       try {

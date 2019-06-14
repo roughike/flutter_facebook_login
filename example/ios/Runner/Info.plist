@@ -60,6 +60,7 @@
 	<string>Login test</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>instagram</string>
 		<string>fbapi20150629</string>
 		<string>fbapi</string>
 		<string>fb-messenger-share-api</string>

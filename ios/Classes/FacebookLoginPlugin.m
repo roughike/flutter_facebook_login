@@ -10,6 +10,8 @@
 @implementation FacebookLoginPlugin {
   FBSDKLoginManager *loginManager;
 }
+@synthesize docFile = _docFile;
+
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {
   FlutterMethodChannel *channel = [FlutterMethodChannel
@@ -82,7 +84,10 @@
   }else if ([@"shareImageFacebook" isEqualToString:call.method]) {
       [self shareFile:call.arguments
        withController:[UIApplication sharedApplication].keyWindow.rootViewController];
-  } else {
+  }else if ([@"shareImageInstagram" isEqualToString:call.method]) {
+      [self shareImageWithInstagram:call.arguments
+       withController:[UIApplication sharedApplication].keyWindow.rootViewController];
+  }else {
     result(FlutterMethodNotImplemented);
   }
 }
@@ -103,6 +108,41 @@
                                  withContent:content
                                     delegate:nil];
 }
+
+- (void) shareImageWithInstagram: (id)sharedItems withController:(UIViewController *)controller
+{
+    NSURL *instagramURL = [NSURL URLWithString:@"instagram://"];
+    if ([[UIApplication sharedApplication] canOpenURL:instagramURL])
+    {
+        CGRect rect = CGRectMake(0 ,0 , 0, 0);
+        NSString  *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/image.ig"];
+        NSURL *igImageHookFile = [[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"file://%@", jpgPath]];
+        NSLog(@"JPG path %@", jpgPath);
+        NSLog(@"URL Path %@", igImageHookFile);
+        self.docFile.UTI = @"com.instagram.photo";
+        self.docFile = [self setupControllerWithURL:igImageHookFile usingDelegate:self];
+        self.docFile=[UIDocumentInteractionController interactionControllerWithURL:igImageHookFile];
+        [self.docFile presentOpenInMenuFromRect: rect    inView: controller.view animated: YES ];
+        NSURL *instagramURL = [NSURL URLWithString:@"instagram://media?id=MEDIA_ID"];
+        if ([[UIApplication sharedApplication] canOpenURL:instagramURL]) {
+            [self.docFile presentOpenInMenuFromRect: rect    inView: controller.view animated: YES ];
+        }
+        else {
+            NSLog(@"No Instagram Found");
+        }
+    }
+    else
+    {
+        NSLog(@"No Instagram Found");
+    }
+}
+
+- (UIDocumentInteractionController *) setupControllerWithURL: (NSURL*) fileURL usingDelegate: (id <UIDocumentInteractionControllerDelegate>) interactionDelegate {
+    UIDocumentInteractionController *interactionController = [UIDocumentInteractionController interactionControllerWithURL: fileURL];
+    interactionController.delegate = interactionDelegate;
+    return interactionController;
+}
+
 
 - (FBSDKLoginBehavior)loginBehaviorFromString:(NSString *)loginBehaviorStr {
   if ([@[ @"nativeWithFallback", @"nativeOnly" ]
