@@ -75,11 +75,9 @@ class _MyAppState extends State<MyApp> {
     try {
       final ByteData bytes = await rootBundle.load('assets/image.jpeg');
       final Uint8List list = bytes.buffer.asUint8List();
-
       final tempDir = await getTemporaryDirectory();
       final file = await new File('${tempDir.path}/image.jpeg').create();
       file.writeAsBytesSync(list);
-
       await facebookSignIn.shareContent('image.jpeg');
     } catch (e) {
       print('Share error: $e');
@@ -91,10 +89,10 @@ class _MyAppState extends State<MyApp> {
       try {
         final ByteData bytes = await rootBundle.load('assets/image.jpeg');
         final Uint8List list = bytes.buffer.asUint8List();
-        final tempDir = await getApplicationSupportDirectory();
-        final file = await new File('${tempDir.path}/image.igo').create();
+        final tempDir = await getTemporaryDirectory();
+        final file = await new File('${tempDir.path}/image.ig').create();
         file.writeAsBytesSync(list);
-        await facebookSignIn.shareContentIg('image.igo');
+        await facebookSignIn.shareContentIg(file.path);
       } catch (e) {
         print('Share error: $e');
       }
