@@ -164,6 +164,14 @@ class FacebookLogin {
     channel.invokeMethod('shareImageInstagram', share);
   }
 
+  Future<void> logEvent(String eventName, Map<String, dynamic> params) async{
+    channel.invokeMethod('logEvent', {"name": eventName, "params": params.toString()});
+  }
+
+  Future<void> logSingUp(double value) async{
+    channel.invokeMethod('logSignup', value);
+  }
+
   String _currentLoginBehaviorAsString() {
     assert(_loginBehavior != null, 'The login behavior was unexpectedly null.');
 

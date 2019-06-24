@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter/material.dart';
@@ -84,6 +85,15 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+
+  Future<Null> _logEvent() async{
+    await facebookSignIn.logEvent('testing_event', {'params':'testingParms'});
+  }
+
+  Future<Null> _logSignUp(double value) async{
+    await facebookSignIn.logSingUp(200);
+  }
+
   Future<Null> _onShareonInstagram() async{
     if (Platform.isIOS){
       try {
@@ -139,6 +149,14 @@ class _MyAppState extends State<MyApp> {
               new RaisedButton(
                 onPressed: _onShareonInstagram,
                 child: new Text('Share Instagram image'),
+              ),
+              new RaisedButton(
+                onPressed: _logEvent,
+                child: new Text('Event singup press'),
+              ),
+              new RaisedButton(
+                onPressed: () => _logSignUp(200),
+                child: new Text('Log Signup'),
               ),
             ],
           ),

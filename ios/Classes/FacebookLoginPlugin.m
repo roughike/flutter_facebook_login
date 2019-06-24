@@ -92,10 +92,31 @@ static CGFloat const kInstagramImageSize = 612.0;
   }else if ([@"shareImageInstagram" isEqualToString:call.method]) {
       [self shareImageWithInstagram:call.arguments
        withController:[UIApplication sharedApplication].keyWindow.rootViewController];
+  }else if ([@"logEvent" isEqualToString:call.method]) {
+      NSString *name = call.arguments[@"name"];
+      NSString *params = call.arguments[@"params"];
+      [self logEvent:name params:params];
+  }else if ([@"logSignup" isEqualToString:call.method]) {
+      NSNumber *value = call.arguments;
+      [FBSDKAppEvents logEvent:FBSDKAppEventNameCompletedRegistration valueToSum:[value doubleValue]];
   }else {
     result(FlutterMethodNotImplemented);
   }
 }
+
+
+- (void)logEvent :(NSString*)name
+                    params :(NSString*)params{
+    
+    NSDictionary *parameters =
+    [[NSDictionary alloc] initWithObjectsAndKeys:
+     params, FBSDKAppEventParameterNameContent,
+     nil];
+    [FBSDKAppEvents logEvent:@"damnnnnn"];
+    [FBSDKAppEvents logEvent: name
+                  parameters: parameters];
+}
+
 
 - (void)shareFile:(id)sharedItems withController:(UIViewController *)controller {
     NSMutableString *filePath = [NSMutableString stringWithString:sharedItems];
