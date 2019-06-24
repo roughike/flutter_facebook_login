@@ -19,11 +19,14 @@ PODS:
     - Flutter
   - path_provider (0.0.1):
     - Flutter
+  - permission_handler (3.1.0):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `/Users/alejandroviquez/Desktop/development/flutter/bin/cache/artifacts/engine/ios`)
   - flutter_facebook_login (from `/Users/alejandroviquez/Desktop/development/flutter_facebook_login/ios`)
   - path_provider (from `/Users/alejandroviquez/Desktop/development/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-1.1.0/ios`)
+  - permission_handler (from `/Users/alejandroviquez/Desktop/development/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler-3.1.0/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -39,6 +42,8 @@ EXTERNAL SOURCES:
     :path: "/Users/alejandroviquez/Desktop/development/flutter_facebook_login/ios"
   path_provider:
     :path: "/Users/alejandroviquez/Desktop/development/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-1.1.0/ios"
+  permission_handler:
+    :path: "/Users/alejandroviquez/Desktop/development/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler-3.1.0/ios"
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
@@ -48,6 +53,7 @@ SPEC CHECKSUMS:
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
   flutter_facebook_login: f51ddb206c08a5dbafae60f0b09fe76e517ca769
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
+  permission_handler: fa6b0d784b1a43cb96b468a5b8365cb130b1956a
 
 PODFILE CHECKSUM: 3098c51a7edbd004c9f2b45eca5eb135d6f3ff27
 

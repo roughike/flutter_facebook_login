@@ -4,8 +4,8 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 void main() => runApp(new MyApp());
@@ -57,19 +57,59 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+
+
+
+  @override
+  void initState(){
+    super.initState();
+  }
+
+
+  Future<void> requestPermission() async{
+    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+  }
+
+
   Future<Null> _onShareFacebook() async{
     try {
       final ByteData bytes = await rootBundle.load('assets/image.jpeg');
       final Uint8List list = bytes.buffer.asUint8List();
-
       final tempDir = await getTemporaryDirectory();
       final file = await new File('${tempDir.path}/image.jpeg').create();
       file.writeAsBytesSync(list);
-
       await facebookSignIn.shareContent('image.jpeg');
     } catch (e) {
       print('Share error: $e');
     }
+  }
+
+  Future<Null> _onShareonInstagram() async{
+    if (Platform.isIOS){
+      try {
+        final ByteData bytes = await rootBundle.load('assets/image.jpeg');
+        final Uint8List list = bytes.buffer.asUint8List();
+        final tempDir = await getTemporaryDirectory();
+        final file = await new File('${tempDir.path}/image.ig').create();
+        file.writeAsBytesSync(list);
+        await facebookSignIn.shareContentIg(file.path);
+      } catch (e) {
+        print('Share error: $e');
+      }
+    }else {
+      await requestPermission();
+      try {
+        final ByteData bytes = await rootBundle.load('assets/image.jpeg');
+        final Uint8List list = bytes.buffer.asUint8List();
+        final tempDir = await getExternalStorageDirectory();
+        final file = await new File('${tempDir.path}/image.jpeg').create();
+        file.writeAsBytesSync(list);
+        await facebookSignIn.shareContentIg(file.path);
+      } catch (e) {
+        print('Share error: $e');
+      }
+    }
+
   }
 
   @override
@@ -95,6 +135,10 @@ class _MyAppState extends State<MyApp> {
               new RaisedButton(
                 onPressed: _onShareFacebook,
                 child: new Text('ShareImageFacebook'),
+              ),
+              new RaisedButton(
+                onPressed: _onShareonInstagram,
+                child: new Text('Share Instagram image'),
               ),
             ],
           ),

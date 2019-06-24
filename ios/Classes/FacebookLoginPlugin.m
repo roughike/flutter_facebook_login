@@ -9,7 +9,14 @@
 
 @implementation FacebookLoginPlugin {
   FBSDKLoginManager *loginManager;
+
 }
+
+@synthesize docFile = _docFile;
+static NSString *const kInstagramCommentKey = @"InstagramCaption";
+static NSString *const kInstagramUTI = @"com.instagram.exclusivegram";
+static CGFloat const kInstagramImageSize = 612.0;
+
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {
   FlutterMethodChannel *channel = [FlutterMethodChannel
@@ -82,7 +89,10 @@
   }else if ([@"shareImageFacebook" isEqualToString:call.method]) {
       [self shareFile:call.arguments
        withController:[UIApplication sharedApplication].keyWindow.rootViewController];
-  } else {
+  }else if ([@"shareImageInstagram" isEqualToString:call.method]) {
+      [self shareImageWithInstagram:call.arguments
+       withController:[UIApplication sharedApplication].keyWindow.rootViewController];
+  }else {
     result(FlutterMethodNotImplemented);
   }
 }
@@ -104,6 +114,35 @@
                                     delegate:nil];
 }
 
+- (void) shareImageWithInstagram: (id)sharedItems withController:(UIViewController *)controller
+{
+    NSURL *instagramURL = [NSURL URLWithString:@"instagram://app"];
+    if ([[UIApplication sharedApplication] canOpenURL:instagramURL]){
+        CGRect rect = CGRectMake(0 ,0 , 612, 612);
+        NSURL *igImageHookFile = [[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"file://%@", sharedItems]];
+        NSLog(@"URL Path %@", igImageHookFile);
+        self.docFile.annotation = [NSDictionary dictionaryWithObject: @"#Cuenca"
+                                                              forKey:@"InstagramCaption"];
+        self.docFile.UTI = @"com.instagram.exclusivegram";
+        self.docFile = [self setupControllerWithURL:igImageHookFile usingDelegate:self];
+//        self.docFile=[UIDocumentInteractionController interactionControllerWithURL:igImageHookFile];
+        [self.docFile presentOpenInMenuFromRect: controller.view.frame    inView: controller.view animated: YES ];
+    }else
+    {
+        NSLog(@"No Instagram Found");
+    }
+}
+
+
+
+- (UIDocumentInteractionController *) setupControllerWithURL: (NSURL*) fileURL usingDelegate: (id <UIDocumentInteractionControllerDelegate>) interactionDelegate {
+    UIDocumentInteractionController *interactionController = [UIDocumentInteractionController interactionControllerWithURL: fileURL];
+    interactionController.UTI = @"com.instagram.exclusivegram";
+    interactionController.delegate = interactionDelegate;
+    return interactionController;
+}
+
+
 - (FBSDKLoginBehavior)loginBehaviorFromString:(NSString *)loginBehaviorStr {
   if ([@[ @"nativeWithFallback", @"nativeOnly" ]
           containsObject:loginBehaviorStr]) {
@@ -115,7 +154,6 @@
   } else {
     NSString *message = [NSString
         stringWithFormat:@"Unknown login behavior: %@", loginBehaviorStr];
-
     @throw [NSException exceptionWithName:@"InvalidLoginBehaviorException"
                                    reason:message
                                  userInfo:nil];
