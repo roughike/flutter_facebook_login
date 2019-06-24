@@ -161,10 +161,8 @@ public class FacebookLoginPlugin implements MethodCallHandler  {
         }
 
         public void shareFileIg(String path) {
-            String type = "image/*";
-            File imageFile = new File(registrar.activity().getApplicationContext().getCacheDir(), path);
-            String completePath = imageFile.getPath();
-            if (shouldRequestPermission(completePath)) {
+            String type = "image/jpeg";
+            if (shouldRequestPermission(path)){
                 if (!checkPermisson()) {
                     requestPermission();
                     return;
@@ -184,13 +182,14 @@ public class FacebookLoginPlugin implements MethodCallHandler  {
         }
 
         private void createInstagramIntent(String type, String mediaPath){
+
             // Create the new Intent using the 'Send' action.
             Intent share = new Intent(Intent.ACTION_SEND);
             // Set the MIME type
             share.setType(type);
             // Create the URI from the media
             File media = new File(mediaPath);
-            Uri uri = Uri.fromFile(media);
+            Uri uri = FileProvider.getUriForFile(registrar.context(), "com.shareinstagram.provider", media);
             // Add the URI to the Intent.
             share.putExtra(Intent.EXTRA_STREAM, uri);
             share.setType(type);
