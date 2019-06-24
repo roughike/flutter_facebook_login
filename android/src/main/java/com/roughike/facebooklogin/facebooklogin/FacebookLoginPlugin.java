@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import androidx.core.app.ActivityCompat;
@@ -23,6 +24,8 @@ import androidx.core.content.ContextCompat;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.share.model.ShareContent;
@@ -53,6 +56,10 @@ public class FacebookLoginPlugin implements MethodCallHandler  {
     private static final String METHOD_GET_CURRENT_ACCESS_TOKEN = "getCurrentAccessToken";
     private static final String METHOD_SHARE_FACEBOOK = "shareImageFacebook";
     private static final String METHOD_SHARE_INSTAGRAM = "shareImageInstagram";
+
+    private static final String LOG_EVENT = "logEvent";
+    private static final String LOG_SINGUP = "logSignup";
+
 
 
     private static final String ARG_LOGIN_BEHAVIOR = "behavior";
@@ -104,6 +111,15 @@ public class FacebookLoginPlugin implements MethodCallHandler  {
                 break;
             case METHOD_SHARE_INSTAGRAM:
                 delegate.shareFileIg((String) call.arguments);
+                break;
+            case LOG_EVENT:
+
+                String eventName = (String) call.argument("name");
+                String eventParams = (String) call.argument("params");
+                delegate.registerEvent(eventName, eventParams);
+                break;
+            case LOG_SINGUP:
+                delegate.registerSingUp((Double) call.arguments);
                 break;
             default:
                 result.notImplemented();
@@ -171,6 +187,17 @@ public class FacebookLoginPlugin implements MethodCallHandler  {
             createInstagramIntent(type, path);
         }
 
+        public void registerEvent(String event, String paramsContent){
+            Bundle params = new Bundle();
+            params.putString(AppEventsConstants.EVENT_PARAM_CONTENT, paramsContent);
+            AppEventsLogger logger = AppEventsLogger.newLogger(registrar.context());
+            logger.logEvent(event, params);
+        }
+
+        public void registerSingUp(Double value){
+            AppEventsLogger logger = AppEventsLogger.newLogger(registrar.context());
+            logger.logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_REGISTRATION, value);
+        }
 
         public static boolean shouldRequestPermission(String path) {
             return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isPathInExternalStorage(path);
