@@ -50,14 +50,14 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb950110338385665</string>
+				<string>fb314355559120484</string>
 			</array>
 		</dict>
 	</array>
 	<key>FacebookAppID</key>
-	<string>950110338385665</string>
+	<string>314355559120484</string>
 	<key>FacebookDisplayName</key>
-	<string>Login test</string>
+	<string>Dev Test</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>instagram</string>
