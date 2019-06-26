@@ -90,7 +90,9 @@ static CGFloat const kInstagramImageSize = 612.0;
       [self shareFile:call.arguments
        withController:[UIApplication sharedApplication].keyWindow.rootViewController];
   }else if ([@"shareImageInstagram" isEqualToString:call.method]) {
-      [self shareImageWithInstagram:call.arguments
+      NSString *share = call.arguments[@"share"];
+
+      [self shareImageWithInstagram:share
        withController:[UIApplication sharedApplication].keyWindow.rootViewController];
   }else if ([@"logEvent" isEqualToString:call.method]) {
       NSString *name = call.arguments[@"name"];

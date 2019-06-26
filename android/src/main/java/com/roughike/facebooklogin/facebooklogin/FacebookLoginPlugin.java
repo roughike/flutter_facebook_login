@@ -110,7 +110,9 @@ public class FacebookLoginPlugin implements MethodCallHandler  {
                 delegate.shareFile((String) call.arguments);
                 break;
             case METHOD_SHARE_INSTAGRAM:
-                delegate.shareFileIg((String) call.arguments);
+                String share = (String) call.argument("share");
+                String provider = (String) call.argument("provider");
+                delegate.shareFileIg(share, provider);
                 break;
             case LOG_EVENT:
 
@@ -176,7 +178,7 @@ public class FacebookLoginPlugin implements MethodCallHandler  {
             shareDialog.show(shareContent, ShareDialog.Mode.AUTOMATIC);
         }
 
-        public void shareFileIg(String path) {
+        public void shareFileIg(String path, String provider) {
             String type = "image/jpeg";
             if (shouldRequestPermission(path)){
                 if (!checkPermisson()) {
@@ -184,7 +186,7 @@ public class FacebookLoginPlugin implements MethodCallHandler  {
                     return;
                 }
             }
-            createInstagramIntent(type, path);
+            createInstagramIntent(type, path, provider);
         }
 
         public void registerEvent(String event, String paramsContent){
@@ -208,7 +210,7 @@ public class FacebookLoginPlugin implements MethodCallHandler  {
             return path.startsWith(storagePath.getAbsolutePath());
         }
 
-        private void createInstagramIntent(String type, String mediaPath){
+        private void createInstagramIntent(String type, String mediaPath, String provider){
 
             // Create the new Intent using the 'Send' action.
             Intent share = new Intent(Intent.ACTION_SEND);
@@ -216,11 +218,10 @@ public class FacebookLoginPlugin implements MethodCallHandler  {
             share.setType(type);
             // Create the URI from the media
             File media = new File(mediaPath);
-            Uri uri = FileProvider.getUriForFile(registrar.context(), "com.shareinstagram.provider", media);
+            Uri uri = FileProvider.getUriForFile(registrar.context(), provider, media);
             // Add the URI to the Intent.
             share.putExtra(Intent.EXTRA_STREAM, uri);
             share.setType(type);
-            share.putExtra(Intent.EXTRA_TEXT, "Lo hice súper fácil, todo bonito y sencillito");
             share.setPackage("com.instagram.android");
             // Broadcast the Intent.
             registrar.activity().startActivity(Intent.createChooser(share, "Share to"));

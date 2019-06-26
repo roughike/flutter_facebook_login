@@ -160,8 +160,8 @@ class FacebookLogin {
     channel.invokeMethod('shareImageFacebook', share);
   }
 
-  Future<void> shareContentIg(String share) async{
-    channel.invokeMethod('shareImageInstagram', share);
+  Future<void> shareContentIg(String share, String provider) async{
+    channel.invokeMethod('shareImageInstagram', {"share": share, "provider": provider});
   }
 
   Future<void> logEvent(String eventName, Map<String, dynamic> params) async{

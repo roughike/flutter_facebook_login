@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> {
         final tempDir = await getTemporaryDirectory();
         final file = await new File('${tempDir.path}/image.ig').create();
         file.writeAsBytesSync(list);
-        await facebookSignIn.shareContentIg(file.path);
+        await facebookSignIn.shareContentIg(file.path, "com.shareinstagram.provider");
       } catch (e) {
         print('Share error: $e');
       }
@@ -114,7 +114,8 @@ class _MyAppState extends State<MyApp> {
         final tempDir = await getTemporaryDirectory();
         final file = await new File('${tempDir.path}/image.jpeg').create();
         file.writeAsBytesSync(list);
-        await facebookSignIn.shareContentIg(file.path);
+        print(file.path);
+        await facebookSignIn.shareContentIg(file.path, "com.shareinstagram.provider");
       } catch (e) {
         print('Share error: $e');
       }
