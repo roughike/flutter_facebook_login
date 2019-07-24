@@ -87,12 +87,18 @@ This assumes that you've done the _"Register and Configure Your App with Faceboo
 After you've done that, find out what your _Facebook App ID_ is. You can find your Facebook App ID in your Facebook App's dashboard in the Facebook developer console.
 
 Once you have the Facebook App ID figured out, then you'll just have to copy-paste the following to your _Info.plist_ file, before the ending `</dict></plist>` tags.
+(**NOTE**: If you are using this plugin in conjunction with for example google_sign_in plugin, which also requires you to add `CFBundleURLTypes` key into _Info.plist_ file, you need to merge them together).
 
 **\<your project root\>/ios/Runner/Info.plist**
 
 ```xml
 <key>CFBundleURLTypes</key>
 <array>
+    <!--
+    <dict>
+    ... Some other CFBundleURLTypes definition.
+    </dict>
+    -->
     <dict>
         <key>CFBundleURLSchemes</key>
         <array>
