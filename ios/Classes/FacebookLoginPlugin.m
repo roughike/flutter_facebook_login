@@ -172,7 +172,7 @@
   NSArray *permissions = [accessToken.permissions allObjects];
   NSArray *declinedPermissions = [accessToken.declinedPermissions allObjects];
   NSNumber *expires = [NSNumber
-      numberWithLong:accessToken.expirationDate.timeIntervalSince1970 * 1000.0];
+      numberWithLongLong:accessToken.expirationDate.timeIntervalSince1970 * 1000.0L];
 
   return @{
     @"token" : accessToken.tokenString,
