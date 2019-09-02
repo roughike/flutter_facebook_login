@@ -1,3 +1,9 @@
+## 3.0.0
+* Update Android & iOS Facebook Login dependencies to `5.5.0`
+* Removed deprecated method `loginWithPublishPermissions` and renamed `loginWithReadPermission` to `login`
+* The `behavior` parameter is now ignored on iOS as it is not supported anymore by the Facebook Login SDK
+* Bump iOS deployment target to `9.0`
+
 ## 2.0.1
 
 * [#128](https://github.com/roughike/flutter_facebook_login/pull/128): Pin down FBSDKCoreKit to the same version as FBSDKLoginKit.
