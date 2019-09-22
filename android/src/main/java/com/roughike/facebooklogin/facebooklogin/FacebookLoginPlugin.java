@@ -19,8 +19,7 @@ public class FacebookLoginPlugin implements MethodCallHandler {
 
     private static final String ERROR_UNKNOWN_LOGIN_BEHAVIOR = "unknown_login_behavior";
 
-    private static final String METHOD_LOG_IN_WITH_READ_PERMISSIONS = "loginWithReadPermissions";
-    private static final String METHOD_LOG_IN_WITH_PUBLISH_PERMISSIONS = "loginWithPublishPermissions";
+    private static final String METHOD_LOG_IN = "logIn";
     private static final String METHOD_LOG_OUT = "logOut";
     private static final String METHOD_GET_CURRENT_ACCESS_TOKEN = "getCurrentAccessToken";
 
@@ -50,19 +49,12 @@ public class FacebookLoginPlugin implements MethodCallHandler {
         LoginBehavior loginBehavior;
 
         switch (call.method) {
-            case METHOD_LOG_IN_WITH_READ_PERMISSIONS:
+            case METHOD_LOG_IN:
                 loginBehaviorStr = call.argument(ARG_LOGIN_BEHAVIOR);
                 loginBehavior = loginBehaviorFromString(loginBehaviorStr, result);
-                List<String> readPermissions = call.argument(ARG_PERMISSIONS);
+                List<String> permissions = call.argument(ARG_PERMISSIONS);
 
-                delegate.logInWithReadPermissions(loginBehavior, readPermissions, result);
-                break;
-            case METHOD_LOG_IN_WITH_PUBLISH_PERMISSIONS:
-                loginBehaviorStr = call.argument(ARG_LOGIN_BEHAVIOR);
-                loginBehavior = loginBehaviorFromString(loginBehaviorStr, result);
-                List<String> publishPermissions = call.argument(ARG_PERMISSIONS);
-
-                delegate.logInWithPublishPermissions(loginBehavior, publishPermissions, result);
+                delegate.logIn(loginBehavior, permissions, result);
                 break;
             case METHOD_LOG_OUT:
                 delegate.logOut(result);
@@ -113,20 +105,12 @@ public class FacebookLoginPlugin implements MethodCallHandler {
             registrar.addActivityResultListener(resultDelegate);
         }
 
-        public void logInWithReadPermissions(
+        public void logIn(
                 LoginBehavior loginBehavior, List<String> permissions, Result result) {
-            resultDelegate.setPendingResult(METHOD_LOG_IN_WITH_READ_PERMISSIONS, result);
+            resultDelegate.setPendingResult(METHOD_LOG_IN, result);
 
             loginManager.setLoginBehavior(loginBehavior);
-            loginManager.logInWithReadPermissions(registrar.activity(), permissions);
-        }
-
-        public void logInWithPublishPermissions(
-                LoginBehavior loginBehavior, List<String> permissions, Result result) {
-            resultDelegate.setPendingResult(METHOD_LOG_IN_WITH_PUBLISH_PERMISSIONS, result);
-
-            loginManager.setLoginBehavior(loginBehavior);
-            loginManager.logInWithPublishPermissions(registrar.activity(), permissions);
+            loginManager.logIn(registrar.activity(), permissions);
         }
 
         public void logOut(Result result) {

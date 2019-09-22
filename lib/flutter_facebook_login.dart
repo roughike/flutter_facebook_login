@@ -17,7 +17,7 @@ import 'src/clock.dart';
 /// ```dart
 /// final facebookLogin = FacebookLogin();
 /// final result =
-///   await facebookLogin.logInWithReadPermissions(['email']);
+///   await facebookLogin.logInWithPermissions(['email']);
 ///
 /// switch (result.status) {
 ///   case FacebookLoginStatus.loggedIn:
@@ -99,38 +99,11 @@ class FacebookLogin {
   /// Returns a [FacebookLoginResult] that contains relevant information about
   /// the current login status. For sample code, see the [FacebookLogin] class-
   /// level documentation.
-  Future<FacebookLoginResult> logInWithReadPermissions(
+  Future<FacebookLoginResult> logIn(
     List<String> permissions,
   ) async {
     final Map<dynamic, dynamic> result =
-        await channel.invokeMethod('loginWithReadPermissions', {
-      'behavior': _currentLoginBehaviorAsString(),
-      'permissions': permissions,
-    });
-
-    return _deliverResult(
-        FacebookLoginResult._(result.cast<String, dynamic>()));
-  }
-
-  /// Logs the user in with the requested publish permissions.
-  ///
-  /// This will throw an exception from the native side if the [permissions]
-  /// list contains any permissions that are not classified as read permissions.
-  ///
-  /// If called right after receiving a result from [logInWithReadPermissions],
-  /// this method may fail. It is recommended to call this method right before
-  /// needing a specific publish permission, in a context where it makes sense
-  /// to the user. For example, a good place to call this method would be when
-  /// the user is about to post something to Facebook by using your app.
-  ///
-  /// Returns a [FacebookLoginResult] that contains relevant information about
-  /// the current login status. For sample code, see the [FacebookLogin] class-
-  /// level documentation.
-  Future<FacebookLoginResult> loginWithPublishPermissions(
-    List<String> permissions,
-  ) async {
-    final Map<dynamic, dynamic> result =
-        await channel.invokeMethod('loginWithPublishPermissions', {
+        await channel.invokeMethod('logIn', {
       'behavior': _currentLoginBehaviorAsString(),
       'permissions': permissions,
     });
@@ -143,17 +116,12 @@ class FacebookLogin {
   ///
   /// NOTE: On iOS, this behaves in an unwanted way. As far the Login SDK is
   /// concerned, the access token and session is cleared upon logging out.
-  /// However, when using [FacebookLoginBehavior.webOnly], the WKViewController
-  /// managed by Safari remembers the user indefinitely.
+  /// However, ViewController managed by Safari remembers the user indefinitely.
   ///
   /// This blocks the user from logging in with any other account than the one
-  /// they used the first time. This same issue is also present when using
-  /// [FacebookLoginBehavior.nativeWithFallback] in the case where the user
-  /// doesn't have a native Facebook app installed.
+  /// they used the first time.
   ///
-  /// Using [FacebookLoginBehavior.webViewOnly] resolves this issue.
-  ///
-  /// For more, see: https://github.com/roughike/flutter_facebook_login/issues/4
+  /// For more, see: https://github.com/facebook/facebook-swift-sdk/issues/215
   Future<void> logOut() async => channel.invokeMethod('logOut');
 
   String _currentLoginBehaviorAsString() {
