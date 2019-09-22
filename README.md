@@ -187,3 +187,12 @@ The `profile` variable will now contain the following information:
    "id": "<user id here>"
 }
 ```
+
+### Troubleshooting
+
+If you haven't complete AndroidX setup you may face app crashes.
+The simple solution is adding 2 lines in your android/gradle.properties:
+```
+android.useAndroidX=true
+android.enableJetifier=true
+```
