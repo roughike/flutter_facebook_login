@@ -82,12 +82,12 @@ Done!
 
 This assumes that you've done the _"Register and Configure Your App with Facebook"_ step in the
 [the Facebook Login documentation for iOS site](https://developers.facebook.com/docs/facebook-login/ios).
-(**Note**: you can skip "Step 2: Set up Your Development Environment").
+(**Note**: you can skip "Step 2: Set up Your Development Environment" and "Step 5: Connect Your App Delegate").
 
 After you've done that, find out what your _Facebook App ID_ is. You can find your Facebook App ID in your Facebook App's dashboard in the Facebook developer console.
 
 Once you have the Facebook App ID figured out, then you'll just have to copy-paste the following to your _Info.plist_ file, before the ending `</dict></plist>` tags.
-(**NOTE**: If you are using this plugin in conjunction with for example google_sign_in plugin, which also requires you to add `CFBundleURLTypes` key into _Info.plist_ file, you need to merge them together).
+(**NOTE**: If you are using this plugin in conjunction with for example `google_sign_in` plugin, which also requires you to add `CFBundleURLTypes` key into _Info.plist_ file, you need to merge them together).
 
 **\<your project root\>/ios/Runner/Info.plist**
 
@@ -196,9 +196,12 @@ The `profile` variable will now contain the following information:
 
 ### Troubleshooting
 
-If you haven't complete AndroidX setup you may face app crashes.
+If you haven't completed AndroidX setup in your Flutter project, your project might not build.
 The simple solution is adding 2 lines in your android/gradle.properties:
+
 ```
 android.useAndroidX=true
 android.enableJetifier=true
 ```
+
+For more, see ["AndroidX compatibility" in the official Flutter documentation](https://flutter.dev/docs/development/packages-and-plugins/androidx-compatibility).
