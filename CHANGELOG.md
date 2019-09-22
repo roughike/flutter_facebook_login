@@ -2,6 +2,7 @@
 * Update Android & iOS Facebook Login dependencies to `5.5`
 * Removed deprecated method `loginWithPublishPermissions` and renamed `loginWithReadPermission` to `login`
 * The `behavior` parameter is now ignored on iOS as it is not supported anymore by the Facebook Login SDK
+* #122: Fix expiration date crashes in 32-bit iOS devices.
 * Bump iOS deployment target to `9.0`
 
 ## 2.0.1

@@ -1,36 +1,41 @@
 PODS:
-  - Bolts (1.8.4):
-    - Bolts/AppLinks (= 1.8.4)
-    - Bolts/Tasks (= 1.8.4)
-  - Bolts/AppLinks (1.8.4):
-    - Bolts/Tasks
-  - Bolts/Tasks (1.8.4)
-  - FBSDKCoreKit (4.29.0):
-    - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.29.0):
-    - FBSDKCoreKit
+  - FBSDKCoreKit (5.6.0):
+    - FBSDKCoreKit/Basics (= 5.6.0)
+    - FBSDKCoreKit/Core (= 5.6.0)
+  - FBSDKCoreKit/Basics (5.6.0)
+  - FBSDKCoreKit/Core (5.6.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (5.6.0):
+    - FBSDKLoginKit/Login (= 5.6.0)
+  - FBSDKLoginKit/Login (5.6.0):
+    - FBSDKCoreKit (~> 5.0)
   - Flutter (1.0.0)
   - flutter_facebook_login (0.0.1):
-    - FBSDKLoginKit (~> 4.29)
+    - FBSDKCoreKit (~> 5.5)
+    - FBSDKLoginKit (~> 5.5)
     - Flutter
 
 DEPENDENCIES:
-  - Flutter (from `/Users/ironman/flutter/bin/cache/artifacts/engine/ios`)
-  - flutter_facebook_login (from `/Users/ironman/FlutterProjects/facebook_login/ios`)
+  - Flutter (from `/Users/iirokrankka/flutter/bin/cache/artifacts/engine/ios`)
+  - flutter_facebook_login (from `/Users/iirokrankka/flutter_facebook_login/ios`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - FBSDKCoreKit
+    - FBSDKLoginKit
 
 EXTERNAL SOURCES:
   Flutter:
-    :path: /Users/ironman/flutter/bin/cache/artifacts/engine/ios
+    :path: "/Users/iirokrankka/flutter/bin/cache/artifacts/engine/ios"
   flutter_facebook_login:
-    :path: /Users/ironman/FlutterProjects/facebook_login/ios
+    :path: "/Users/iirokrankka/flutter_facebook_login/ios"
 
 SPEC CHECKSUMS:
-  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  FBSDKCoreKit: 6f139173dc63a1deaff4430a55f2fe5bb222d2af
-  FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
-  Flutter: d674e78c937094a75ac71dd77e921e840bea3dbf
-  flutter_facebook_login: 8570fe85a9b988b19503530a85bfce2b3b847145
+  FBSDKCoreKit: d6655a343868d4bb5c29a60859bab07c3be14a0b
+  FBSDKLoginKit: c5a623de88a6b0cda35b35582921f6cec2efcc36
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_facebook_login: 0266e8cf236ad20f17d377c4251c582638d8bef7
 
 PODFILE CHECKSUM: 3098c51a7edbd004c9f2b45eca5eb135d6f3ff27
 
-COCOAPODS: 1.3.0.beta.1
+COCOAPODS: 1.7.5

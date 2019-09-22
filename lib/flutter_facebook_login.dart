@@ -48,6 +48,8 @@ class FacebookLogin {
   ///
   /// NOTE: Updating the login behavior won't do anything immediately; the value
   /// is taken into account just before the login dialog is about to show.
+  ///
+  /// Ignored on iOS, as it's not supported by the iOS Facebook Login SDK anymore.
   set loginBehavior(FacebookLoginBehavior behavior) {
     assert(behavior != null, 'The login behavior cannot be null.');
     _loginBehavior = behavior;
@@ -157,6 +159,8 @@ class FacebookLogin {
 
 /// Different behaviors for controlling how the Facebook Login dialog should
 /// be presented.
+///
+/// Ignored on iOS, as it's not supported by the iOS Facebook Login SDK anymore.
 enum FacebookLoginBehavior {
   /// Login dialog should be rendered by the native Android or iOS Facebook app.
   ///
