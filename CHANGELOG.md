@@ -1,3 +1,7 @@
+## 2.0.1
+
+* [#128](https://github.com/roughike/flutter_facebook_login/pull/128): Pin down FBSDKCoreKit to the same version as FBSDKLoginKit.
+
 ## 2.0.0
 
 * **Breaking change:** migrate from the deprecated original Android Support Library to AndroidX. This shouldn't result in any functional changes, but it requires any Android apps using this plugin to [also migrate](https://flutter.dev/docs/development/packages-and-plugins/androidx-compatibility) if they're using the original support library.
