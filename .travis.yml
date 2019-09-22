@@ -1,21 +1,22 @@
 os:
   - linux
+
 sudo: false
+
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
       - libstdc++6
-      - fonts-droid
+      - fonts-droid-fallback
 
 before_script:
-  - git clone https://github.com/flutter/flutter.git -b master --depth 1
+  - git clone https://github.com/flutter/flutter.git -b stable --depth 1
   - ./flutter/bin/flutter doctor
-  - gem install coveralls-lcov
 
 script:
-  - ./flutter/bin/flutter test --coverage
+  - ./flutter/bin/flutter test --coverage --coverage-path=lcov.info
 
 after_success:
   - coveralls-lcov coverage/lcov.info
