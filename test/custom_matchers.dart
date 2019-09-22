@@ -1,18 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 
-Matcher isReadPermissionLoginWithBehavior(String behavior) {
+Matcher isLoginWithBehavior(String behavior) {
   return isMethodCall(
-    'loginWithReadPermissions',
-    arguments: {
-      'behavior': behavior,
-      'permissions': [],
-    },
-  );
-}
-
-Matcher isPublishPermissionLoginWithBehavior(String behavior) {
-  return isMethodCall(
-    'loginWithPublishPermissions',
+    'logIn',
     arguments: {
       'behavior': behavior,
       'permissions': [],
