@@ -175,7 +175,7 @@ For now, this feature isn't going to be integrated into this plugin. See the [di
 However, you can get do this in four lines of Dart code:
 
 ```dart
-final result = await facebookSignIn.logInWithReadPermissions(['email']);
+final result = await facebookSignIn.logIn(['email']);
 final token = result.accessToken.token;
 final graphResponse = await http.get(
             'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
