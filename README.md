@@ -143,7 +143,7 @@ Since sample code is worth more than one page of documentation, here are the usu
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 final facebookLogin = FacebookLogin();
-final result = await facebookLogin.logInWithReadPermissions(['email']);
+final result = await facebookLogin.logIn(['email']);
 
 switch (result.status) {
   case FacebookLoginStatus.loggedIn:
