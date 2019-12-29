@@ -10,7 +10,7 @@ class FacebookLoginPlugin {
   static FacebookLoginPlugin instance;
   static final String _ARG_PERMISSIONS = "permissions";
   static const String _METHOD_LOG_IN = "logIn";
-  // static const String _METHOD_LOG_OUT = "logOut";
+  static const String _METHOD_LOG_OUT = "logOut";
   // static const String _METHOD_GET_CURRENT_ACCESS_TOKEN = "getCurrentAccessToken";
 
   static void registerWith(Registrar registrar) {
@@ -29,6 +29,9 @@ class FacebookLoginPlugin {
       case _METHOD_LOG_IN:
         final List<dynamic> loginPermissions = call.arguments[_ARG_PERMISSIONS] as List;
         return _doLogIn(loginPermissions);
+
+      case _METHOD_LOG_OUT:
+        return _doLogOut();
       default:
         var message ="The flutter_facebook_login plugin for web doesn't implement the method '${call.method}'";
         throw PlatformException(code: 'Unimplemented', details: message);
@@ -57,6 +60,16 @@ class FacebookLoginPlugin {
     // JS context from window browser
     var scope = { 'scope': permissions.join(',')};
     context['FB'].callMethod('login', [callback, scope]);
+    return completer.future;
+  }
+
+  Future _doLogOut() {
+    Completer completer = new Completer();
+    var callback = (JsObject response) {
+      completer.complete();
+    };
+
+    context['FB'].callMethod('logout', [callback]);
     return completer.future;
   }
 }
