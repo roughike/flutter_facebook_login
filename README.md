@@ -133,15 +133,15 @@ A sample of a complete Info.plist file can be found [here](https://github.com/ro
 
 Done!
 
-### WEB
+### WEB (Beta)
 
 This assumes that you've done the _"Register and Configure Your App with Facebook"_ step in the
 [the Facebook Login documentation for WEB site](https://developers.facebook.com/docs/facebook-login/web).
 
 After you've done that, find out what your _Facebook App ID_ is. You can find your Facebook App ID in your Facebook App's dashboard in the Facebook developer console.
 
-- Open folder web/index.html and copy/paste this code inside BODY tag.
-- Obs. Some feature require use https. 
+- Open folder web/index.html and paste this code inside BODY tag.
+- Obs. Some features require use https. 
 - For login, you can use http.
 
 ```JS
