@@ -133,6 +133,44 @@ A sample of a complete Info.plist file can be found [here](https://github.com/ro
 
 Done!
 
+### WEB
+
+This assumes that you've done the _"Register and Configure Your App with Facebook"_ step in the
+[the Facebook Login documentation for WEB site](https://developers.facebook.com/docs/facebook-login/web).
+
+After you've done that, find out what your _Facebook App ID_ is. You can find your Facebook App ID in your Facebook App's dashboard in the Facebook developer console.
+
+- Open folder web/index.html and copy/paste this code inside BODY tag.
+- Obs. Some feature require use https. 
+- For login, you can use http.
+
+```JS
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '000000000000', // Replace "000000000000" with your Facebook App ID here.
+        xfbml      : true,
+        version    : 'v5.0' // Check current Facebook SDK version
+      });
+      FB.AppEvents.logPageView();
+    };
+  </script>
+```
+
+```JS
+  <script>
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "https://connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
+```
+
+Done!
+
 ## How do I use it?
 
 The library tries to closely match the native Android & iOS login SDK APIs where possible. For complete API documentation, just see the [source code](https://github.com/roughike/flutter_facebook_login/blob/master/lib/flutter_facebook_login.dart). Everything is documented there.
