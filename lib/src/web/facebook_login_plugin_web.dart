@@ -6,7 +6,9 @@ import 'package:flutter_facebook_login/src/web/entities/facebook_web_access_toke
 import 'package:flutter_facebook_login/src/web/entities/facebook_web_response.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-// Facebook Web SDK doc: https://developers.facebook.com/docs/javascript/reference/v5.0
+// Facebook Web SDK 
+// DOC: https://developers.facebook.com/docs/javascript/reference/v5.0
+
 class FacebookLoginPlugin {
   static MethodChannel channel;
   static FacebookLoginPlugin instance;
