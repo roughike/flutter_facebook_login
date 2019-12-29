@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'custom_matchers.dart';
 
 void main() {
+   TestWidgetsFlutterBinding.ensureInitialized();
   group('$FacebookLogin', () {
     const channel = MethodChannel('com.roughike/flutter_facebook_login');
 
