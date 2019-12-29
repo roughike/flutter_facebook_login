@@ -2,16 +2,18 @@ import 'dart:async';
 import 'dart:js';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_login/src/web/entities/facebook_web_access_token.dart';
 import 'package:flutter_facebook_login/src/web/entities/facebook_web_response.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
+// Facebook Web SDK doc: https://developers.facebook.com/docs/javascript/reference/v5.0
 class FacebookLoginPlugin {
   static MethodChannel channel;
   static FacebookLoginPlugin instance;
   static final String _ARG_PERMISSIONS = "permissions";
   static const String _METHOD_LOG_IN = "logIn";
   static const String _METHOD_LOG_OUT = "logOut";
-  // static const String _METHOD_GET_CURRENT_ACCESS_TOKEN = "getCurrentAccessToken";
+  static const String _METHOD_GET_CURRENT_ACCESS_TOKEN = "getCurrentAccessToken";
 
   static void registerWith(Registrar registrar) {
     channel = MethodChannel(
@@ -29,14 +31,17 @@ class FacebookLoginPlugin {
       case _METHOD_LOG_IN:
         final List<dynamic> loginPermissions = call.arguments[_ARG_PERMISSIONS] as List;
         return _doLogIn(loginPermissions);
-
       case _METHOD_LOG_OUT:
         return _doLogOut();
+      case _METHOD_GET_CURRENT_ACCESS_TOKEN:
+        return _getCurrentAccessToken();
       default:
         var message ="The flutter_facebook_login plugin for web doesn't implement the method '${call.method}'";
         throw PlatformException(code: 'Unimplemented', details: message);
     }
   }
+
+  // LOGIN
 
   Future<dynamic> _doLogIn(List<dynamic> permissions) {
     Completer completer = new Completer();
@@ -63,6 +68,8 @@ class FacebookLoginPlugin {
     return completer.future;
   }
 
+  // LOGOUT
+
   Future _doLogOut() {
     Completer completer = new Completer();
     var callback = (JsObject response) {
@@ -71,5 +78,17 @@ class FacebookLoginPlugin {
 
     context['FB'].callMethod('logout', [callback]);
     return completer.future;
+  }
+
+  // CURRENT ACCESS TOKEN
+
+    Future _getCurrentAccessToken() {
+    var response = context['FB'].callMethod('getAuthResponse');
+    if (response != null) {
+      FacebookWebAccessToken accessToken = FacebookWebAccessToken.fromJsObject(response);
+      return Future.value(accessToken.toMap());
+    }
+
+    return Future.value(null);
   }
 }

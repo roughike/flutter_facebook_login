@@ -11,7 +11,7 @@ class FacebookWebAccessToken {
     FacebookWebAccessToken accessToken = FacebookWebAccessToken();
     accessToken.token = jsObject['accessToken'];
     accessToken.userId = jsObject['userID'];
-    accessToken.expires = jsObject['expiresIn'];
+    accessToken.expires = jsObject['data_access_expiration_time'] * 1000;
 
     return accessToken;
   }
