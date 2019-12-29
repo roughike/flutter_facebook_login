@@ -11,7 +11,11 @@ class FacebookWebResponse {
     FacebookWebResponse webResponse = FacebookWebResponse();
     webResponse.status = _parseStatus(jsObject['status']);
     webResponse.accessToken = FacebookWebAccessToken.fromJsObject(jsObject['authResponse']);
-    // webResponse.errorMessage = map['errorMessage'];
+    
+    if (jsObject['errorMessage'] != null) {
+      webResponse.errorMessage = jsObject['errorMessage'];
+    }
+    
     return webResponse;
   }
 
@@ -19,7 +23,7 @@ class FacebookWebResponse {
     return {
       "status": this.status,
       "accessToken": this.accessToken.toMap(),
-      "s": this.errorMessage,
+      "errorMessage": this.errorMessage,
     };
   }
 

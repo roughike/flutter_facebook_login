@@ -13,6 +13,14 @@ class FacebookWebAccessToken {
     accessToken.userId = jsObject['userID'];
     accessToken.expires = jsObject['data_access_expiration_time'] * 1000;
 
+    if (jsObject['permissions'] != null) {
+      accessToken.permissions = jsObject['permissions'];
+    }
+
+    if (jsObject['declinedPermissions'] != null) {
+      accessToken.declinedPermissions = jsObject['declinedPermissions'];
+    }
+
     return accessToken;
   }
 
