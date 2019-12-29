@@ -7,6 +7,8 @@ homepage: https://github.com/roughike/flutter_facebook_login
 dependencies:
   flutter:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
   collection: ^1.0.0
 
 dev_dependencies:
@@ -15,8 +17,15 @@ dev_dependencies:
 
 flutter:
   plugin:
-    androidPackage: com.roughike.facebooklogin.facebooklogin
-    pluginClass: FacebookLoginPlugin
+    platforms:
+      android:
+        package: com.roughike.facebooklogin.facebooklogin
+        pluginClass: FacebookLoginPlugin
+      ios:
+        pluginClass: FacebookLoginPlugin
+      web:
+        pluginClass: FacebookLoginPlugin
+        fileName: src/web/facebook_login_plugin_web.dart
 
 environment:
   sdk: ">=2.0.0-dev.28.0 <3.0.0"
