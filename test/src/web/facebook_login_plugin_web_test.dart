@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/src/web/facebook_login_plugin_web.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'data/data_web.dart';
-import 'mocks/web_mocks.dart';
 
+import '../../data/data_web.dart';
+import '../../mocks/web_mocks.dart';
 
 void main() {
   group('FacebookLoginPluginWeb test', () {

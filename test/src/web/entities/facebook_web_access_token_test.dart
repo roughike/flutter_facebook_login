@@ -1,7 +1,8 @@
 import 'package:flutter_facebook_login/src/web/entities/facebook_web_access_token.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../data/data_web.dart';
+import '../../../data/data_web.dart';
+
 
 void main() {
     group('FacebookWebAccessToken.', () {
