@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter_facebook_login/src/web/entities/facebook_web_access_token.dart';
 
 class FacebookWebResponse {
@@ -7,13 +5,13 @@ class FacebookWebResponse {
   String errorMessage;
   FacebookWebAccessToken accessToken;
 
-  static  FacebookWebResponse fromJsObject(JsObject jsObject) {
+  static  FacebookWebResponse fromMap(Map mapObject) {
     FacebookWebResponse webResponse = FacebookWebResponse();
-    webResponse.status = _parseStatus(jsObject['status']);
-    webResponse.accessToken = FacebookWebAccessToken.fromJsObject(jsObject['authResponse']);
+    webResponse.status = _parseStatus(mapObject['status']);
+    webResponse.accessToken = FacebookWebAccessToken.fromMap(mapObject['authResponse']);
     
-    if (jsObject['errorMessage'] != null) {
-      webResponse.errorMessage = jsObject['errorMessage'];
+    if (mapObject['errorMessage'] != null) {
+      webResponse.errorMessage = mapObject['errorMessage'];
     }
     
     return webResponse;

@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:js';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/src/web/entities/facebook_web_access_token.dart';
 import 'package:flutter_facebook_login/src/web/entities/facebook_web_response.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:flutter_facebook_login/src/web/interactors/browser_interactor.dart';
 
 // Facebook Web SDK 
 // DOC: https://developers.facebook.com/docs/javascript/reference/v5.0
@@ -16,6 +16,11 @@ class FacebookLoginPlugin {
   static const String _METHOD_LOG_IN = "logIn";
   static const String _METHOD_LOG_OUT = "logOut";
   static const String _METHOD_GET_CURRENT_ACCESS_TOKEN = "getCurrentAccessToken";
+  BrowserInteractor _browserInteractor;
+
+  FacebookLoginPlugin({BrowserInteractor browserInteractor}) {
+    this._browserInteractor = browserInteractor ?? BrowserInteractor(); 
+  }
 
   static void registerWith(Registrar registrar) {
     channel = MethodChannel(
@@ -32,9 +37,9 @@ class FacebookLoginPlugin {
     switch (call.method) {
       case _METHOD_LOG_IN:
         final List<dynamic> loginPermissions = call.arguments[_ARG_PERMISSIONS] as List;
-        return _doLogIn(loginPermissions);
+        return _login(loginPermissions);
       case _METHOD_LOG_OUT:
-        return _doLogOut();
+        return _logout();
       case _METHOD_GET_CURRENT_ACCESS_TOKEN:
         return _getCurrentAccessToken();
       default:
@@ -45,52 +50,41 @@ class FacebookLoginPlugin {
 
   // LOGIN
 
-  Future<dynamic> _doLogIn(List<dynamic> permissions) {
-    Completer completer = new Completer();
-    var callback = (JsObject response) {
+  Future<dynamic> _login(List<dynamic> permissions) {
+    var scope = { 'scope': permissions.join(',')};
+
+    return _browserInteractor.callJSMethodAsync('FB', 'login', [scope]).then((response) {
       String responseStatus = response['status'];
       switch (responseStatus) {
         case 'connected':
-          FacebookWebResponse webResponse = FacebookWebResponse.fromJsObject(response);
-          completer.complete(webResponse.toMap());
+          FacebookWebResponse webResponse = FacebookWebResponse.fromMap(response);
+          return webResponse.toMap();
           break;
-        case 'not_authorized': // TOOD: handle this status in the future.
-        case 'unknown':
-          completer.complete({"status": 'cancelledByUser'});
-          break;
-        default:
-          completer.complete({"status": 'error'});
-          break;
+        case 'not_authorized':
+        case 'unknown': 
+          return {"status": 'cancelledByUser', 'errorMessage': 'Cancelled by user.'};
+        default: 
+          return {"status": 'error', 'errorMessage': 'Unknown facebook status from web.'};
       }
-    };
-
-    // JS context from window browser
-    var scope = { 'scope': permissions.join(',')};
-    context['FB'].callMethod('login', [callback, scope]);
-    return completer.future;
+    });
   }
 
-  // LOGOUT
+  // // LOGOUT
 
-  Future _doLogOut() {
-    Completer completer = new Completer();
-    var callback = (JsObject response) {
-      completer.complete();
-    };
-
-    context['FB'].callMethod('logout', [callback]);
-    return completer.future;
+  Future _logout() {
+    return _browserInteractor.callJSMethodAsync('FB', 'logout', null).then((response) {
+      return response != null ? true : false;
+    });
   }
 
   // CURRENT ACCESS TOKEN
 
     Future _getCurrentAccessToken() {
-    var response = context['FB'].callMethod('getAuthResponse');
+    var response = _browserInteractor.callJSMethod('FB', 'getAuthResponse', null);
     if (response != null) {
-      FacebookWebAccessToken accessToken = FacebookWebAccessToken.fromJsObject(response);
+      FacebookWebAccessToken accessToken = FacebookWebAccessToken.fromMap(response);
       return Future.value(accessToken.toMap());
     }
-
     return Future.value(null);
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:js';
-
 class FacebookWebAccessToken {
   String token;
   String userId;
@@ -7,18 +5,18 @@ class FacebookWebAccessToken {
   List permissions = [];
   List declinedPermissions = [];
 
-  static FacebookWebAccessToken fromJsObject(JsObject jsObject) {
+  static FacebookWebAccessToken fromMap(Map mapObject) {
     FacebookWebAccessToken accessToken = FacebookWebAccessToken();
-    accessToken.token = jsObject['accessToken'];
-    accessToken.userId = jsObject['userID'];
-    accessToken.expires = jsObject['data_access_expiration_time'] * 1000;
+    accessToken.token = mapObject['accessToken'];
+    accessToken.userId = mapObject['userID'];
+    accessToken.expires = mapObject['expiresIn'];
 
-    if (jsObject['permissions'] != null) {
-      accessToken.permissions = jsObject['permissions'];
+    if (mapObject['permissions'] != null) {
+      accessToken.permissions = mapObject['permissions'];
     }
 
-    if (jsObject['declinedPermissions'] != null) {
-      accessToken.declinedPermissions = jsObject['declinedPermissions'];
+    if (mapObject['declinedPermissions'] != null) {
+      accessToken.declinedPermissions = mapObject['declinedPermissions'];
     }
 
     return accessToken;
