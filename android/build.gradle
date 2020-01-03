@@ -34,5 +34,5 @@ android {
 }
 
 dependencies {
-    api 'com.facebook.android:facebook-login:5.5.1'
+    api 'com.facebook.android:facebook-login:5.13.0'
 }
