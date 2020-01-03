@@ -14,7 +14,7 @@ A Flutter plugin for using the native Facebook Login SDKs on Android and iOS.
 ## Installation
 
 To get things up and running, you'll have to declare a pubspec dependency in your Flutter project.
-Also some minimal Android & iOS specific configuration must be done, otherise your app will crash.
+Also some minimal Android & iOS specific configuration must be done, otherwise your app will crash.
 
 ### On your Flutter project
 
@@ -27,7 +27,7 @@ This assumes that you've done the _"Associate Your Package Name and Default Clas
 
 After you've done that, find out what your _Facebook App ID_ is. You can find your Facebook App ID in your Facebook App's dashboard in the Facebook developer console.
 
-Once you have the Facebook App ID figured out, youll have to do two things.
+Once you have the Facebook App ID figured out, you'll have to do two things.
 
 First, copy-paste the following to your strings resource file. If you don't have one, just create it.
 
