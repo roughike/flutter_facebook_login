@@ -14,7 +14,7 @@ A Flutter plugin for using the native Facebook Login SDKs on Android and iOS.
 ## Installation
 
 To get things up and running, you'll have to declare a pubspec dependency in your Flutter project.
-Also some minimal Android & iOS specific configuration must be done, otherise your app will crash.
+Also some minimal Android & iOS specific configuration must be done, otherwise your app will crash.
 
 ### On your Flutter project
 
@@ -27,7 +27,7 @@ This assumes that you've done the _"Associate Your Package Name and Default Clas
 
 After you've done that, find out what your _Facebook App ID_ is. You can find your Facebook App ID in your Facebook App's dashboard in the Facebook developer console.
 
-Once you have the Facebook App ID figured out, youll have to do two things.
+Once you have the Facebook App ID figured out, you'll have to do two things.
 
 First, copy-paste the following to your strings resource file. If you don't have one, just create it.
 
@@ -143,7 +143,7 @@ Since sample code is worth more than one page of documentation, here are the usu
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 final facebookLogin = FacebookLogin();
-final result = await facebookLogin.logInWithReadPermissions(['email']);
+final result = await facebookLogin.logIn(['email']);
 
 switch (result.status) {
   case FacebookLoginStatus.loggedIn:
@@ -175,7 +175,7 @@ For now, this feature isn't going to be integrated into this plugin. See the [di
 However, you can get do this in four lines of Dart code:
 
 ```dart
-final result = await facebookSignIn.logInWithReadPermissions(['email']);
+final result = await facebookSignIn.logIn(['email']);
 final token = result.accessToken.token;
 final graphResponse = await http.get(
             'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
