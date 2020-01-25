@@ -1,5 +1,8 @@
 package com.roughike.facebooklogin.facebooklogin;
 
+import android.app.Activity;
+import android.content.Context;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginBehavior;
@@ -8,13 +11,17 @@ import com.facebook.login.LoginManager;
 import java.util.List;
 import java.util.Map;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.embedding.engine.plugins.activity.ActivityAware;
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
+import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
-public class FacebookLoginPlugin implements MethodCallHandler {
+public class FacebookLoginPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler {
     private static final String CHANNEL_NAME = "com.roughike/flutter_facebook_login";
 
     private static final String ERROR_UNKNOWN_LOGIN_BEHAVIOR = "unknown_login_behavior";
@@ -31,16 +38,14 @@ public class FacebookLoginPlugin implements MethodCallHandler {
     private static final String LOGIN_BEHAVIOR_WEB_ONLY = "webOnly";
     private static final String LOGIN_BEHAVIOR_WEB_VIEW_ONLY = "webViewOnly";
 
-    private final FacebookSignInDelegate delegate;
-
-    private FacebookLoginPlugin(Registrar registrar) {
-        delegate = new FacebookSignInDelegate(registrar);
-    }
+    private FacebookSignInDelegate delegate;
+    private MethodChannel channel;
 
     public static void registerWith(Registrar registrar) {
-        final FacebookLoginPlugin plugin = new FacebookLoginPlugin(registrar);
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), CHANNEL_NAME);
-        channel.setMethodCallHandler(plugin);
+        final FacebookLoginPlugin plugin = new FacebookLoginPlugin();
+        plugin.setupChannel(registrar.messenger(), registrar.context());
+        plugin.delegate = new FacebookSignInDelegate(registrar.activity());
+        registrar.addActivityResultListener(plugin.delegate.getResultDelegate());
     }
 
     @Override
@@ -90,19 +95,21 @@ public class FacebookLoginPlugin implements MethodCallHandler {
     }
 
     public static final class FacebookSignInDelegate {
-        private final Registrar registrar;
+        private Activity activity;
         private final CallbackManager callbackManager;
         private final LoginManager loginManager;
         private final FacebookLoginResultDelegate resultDelegate;
 
-        public FacebookSignInDelegate(Registrar registrar) {
-            this.registrar = registrar;
+        public FacebookSignInDelegate(Activity activity) {
+            this.activity = activity;
             this.callbackManager = CallbackManager.Factory.create();
             this.loginManager = LoginManager.getInstance();
             this.resultDelegate = new FacebookLoginResultDelegate(callbackManager);
-
             loginManager.registerCallback(callbackManager, resultDelegate);
-            registrar.addActivityResultListener(resultDelegate);
+        }
+
+        FacebookLoginResultDelegate getResultDelegate() {
+            return this.resultDelegate;
         }
 
         public void logIn(
@@ -110,7 +117,7 @@ public class FacebookLoginPlugin implements MethodCallHandler {
             resultDelegate.setPendingResult(METHOD_LOG_IN, result);
 
             loginManager.setLoginBehavior(loginBehavior);
-            loginManager.logIn(registrar.activity(), permissions);
+            loginManager.logIn(activity, permissions);
         }
 
         public void logOut(Result result) {
@@ -124,5 +131,51 @@ public class FacebookLoginPlugin implements MethodCallHandler {
 
             result.success(tokenMap);
         }
+    }
+
+    // Plugin callbacks
+
+    private void setupChannel(BinaryMessenger messenger, Context context) {
+        channel = new MethodChannel(messenger, CHANNEL_NAME);
+        channel.setMethodCallHandler(this);
+    }
+
+    private void teardownChannel() {
+        channel.setMethodCallHandler(null);
+        channel = null;
+    }
+
+
+    @Override
+    public void onAttachedToEngine(FlutterPluginBinding binding) {
+        setupChannel(binding.getBinaryMessenger(), binding.getApplicationContext());
+    }
+
+    @Override
+    public void onDetachedFromEngine(FlutterPluginBinding binding) {
+        teardownChannel();
+    }
+
+    // Activity callbacks
+
+    @Override
+    public void onAttachedToActivity(ActivityPluginBinding binding) {
+        this.delegate = new FacebookSignInDelegate(binding.getActivity());
+        binding.addActivityResultListener(delegate.getResultDelegate());
+    }
+
+    @Override
+    public void onDetachedFromActivityForConfigChanges() {
+
+    }
+
+    @Override
+    public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding) {
+
+    }
+
+    @Override
+    public void onDetachedFromActivity() {
+
     }
 }
