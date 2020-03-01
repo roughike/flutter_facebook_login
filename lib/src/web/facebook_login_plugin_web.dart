@@ -6,7 +6,7 @@ import 'package:flutter_facebook_login/src/web/entities/facebook_web_response.da
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:flutter_facebook_login/src/web/interactors/browser_interactor.dart';
 
-// Facebook Web SDK 
+// Facebook Web SDK
 // DOC: https://developers.facebook.com/docs/javascript/reference/v5.0
 
 class FacebookLoginPlugin {
@@ -19,15 +19,11 @@ class FacebookLoginPlugin {
   BrowserInteractor _browserInteractor;
 
   FacebookLoginPlugin({BrowserInteractor browserInteractor}) {
-    this._browserInteractor = browserInteractor ?? BrowserInteractor(); 
+    this._browserInteractor = browserInteractor ?? BrowserInteractor();
   }
 
   static void registerWith(Registrar registrar) {
-    channel = MethodChannel(
-        'com.roughike/flutter_facebook_login',
-        const StandardMethodCodec(),
-        registrar.messenger
-    );
+    channel = MethodChannel('com.roughike/flutter_facebook_login', const StandardMethodCodec(), registrar.messenger);
 
     instance = FacebookLoginPlugin();
     channel.setMethodCallHandler(instance.handleMethodCall);
@@ -43,7 +39,7 @@ class FacebookLoginPlugin {
       case _METHOD_GET_CURRENT_ACCESS_TOKEN:
         return _getCurrentAccessToken();
       default:
-        var message ="The flutter_facebook_login plugin for web doesn't implement the method '${call.method}'";
+        var message = "The flutter_facebook_login plugin for web doesn't implement the method '${call.method}'";
         throw PlatformException(code: 'Unimplemented', details: message);
     }
   }
@@ -51,9 +47,7 @@ class FacebookLoginPlugin {
   // LOGIN
 
   Future<dynamic> _login(List<dynamic> permissions) {
-    var scope = { 'scope': permissions.join(',')};
-
-    return _browserInteractor.callJSMethodAsync('FB', 'login', [scope]).then((response) {
+    return _browserInteractor.login(permissions).then((response) {
       String responseStatus = response['status'];
       switch (responseStatus) {
         case 'connected':
@@ -61,9 +55,9 @@ class FacebookLoginPlugin {
           return webResponse.toMap();
           break;
         case 'not_authorized':
-        case 'unknown': 
+        case 'unknown':
           return {"status": 'cancelledByUser', 'errorMessage': 'Cancelled by user.'};
-        default: 
+        default:
           return {"status": 'error', 'errorMessage': 'Unknown facebook status from web.'};
       }
     });
@@ -79,7 +73,7 @@ class FacebookLoginPlugin {
 
   // CURRENT ACCESS TOKEN
 
-    Future _getCurrentAccessToken() {
+  Future _getCurrentAccessToken() {
     var response = _browserInteractor.callJSMethod('FB', 'getAuthResponse', null);
     if (response != null) {
       FacebookWebAccessToken accessToken = FacebookWebAccessToken.fromMap(response);
