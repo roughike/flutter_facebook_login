@@ -141,8 +141,8 @@ This assumes that you've done the _"Register and Configure Your App with Faceboo
 After you've done that, find out what your _Facebook App ID_ is. You can find your Facebook App ID in your Facebook App's dashboard in the Facebook developer console.
 
 - Open folder web/index.html and paste this code inside BODY tag.
-- Obs. Some features require use https. 
-- For login, you can use http.
+- OBS. Facebook SDK use <b>HTTPS</b>. You need build and deploy your application ex:  https://my-site.dev.com
+- OBS. Check if your domain https://my-site.dev.com is registred in facebook deshboard.
 
 ```JS
   <script>
@@ -150,7 +150,7 @@ After you've done that, find out what your _Facebook App ID_ is. You can find yo
       FB.init({
         appId      : '000000000000', // Replace "000000000000" with your Facebook App ID here.
         xfbml      : true,
-        version    : 'v5.0' // Check current Facebook SDK version
+        version    : 'v6.0' // Check current Facebook SDK version
       });
       FB.AppEvents.logPageView();
     };
