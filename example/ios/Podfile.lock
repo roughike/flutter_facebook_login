@@ -11,13 +11,13 @@ PODS:
     - FBSDKCoreKit (~> 6.2.0)
   - Flutter (1.0.0)
   - flutter_facebook_login (0.0.1):
-    - FBSDKCoreKit (~> 6.0)
-    - FBSDKLoginKit (~> 6.0)
+    - FBSDKCoreKit (~> 6.2.0)
+    - FBSDKLoginKit (~> 6.2.0)
     - Flutter
 
 DEPENDENCIES:
-  - Flutter (from `/Users/lms/flutter/bin/cache/artifacts/engine/ios`)
-  - flutter_facebook_login (from `/Users/lms/IdeaProjects/flutter_facebook_login/ios`)
+  - Flutter (from `Flutter`)
+  - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
 
 SPEC REPOS:
   trunk:
@@ -26,16 +26,16 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Flutter:
-    :path: "/Users/lms/flutter/bin/cache/artifacts/engine/ios"
+    :path: Flutter
   flutter_facebook_login:
-    :path: "/Users/lms/IdeaProjects/flutter_facebook_login/ios"
+    :path: ".symlinks/plugins/flutter_facebook_login/ios"
 
 SPEC CHECKSUMS:
   FBSDKCoreKit: a7bb9f5ac56c1e11d5f8ae0b90a3610f8744b43a
   FBSDKLoginKit: 5877adb09cc249870c352d92ecc3246cb925c771
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_facebook_login: 0e6e94a75ff1679a0f151b376db32187e07d7a69
+  flutter_facebook_login: 7cecc1fb6c8c100f58d65c666098e5fa0af8a716
 
-PODFILE CHECKSUM: ee3513d63d9f1f16cbf54d96a76fd258b1e63510
+PODFILE CHECKSUM: 8efa1828e4f45f1818932dcc637740d4787792a1
 
 COCOAPODS: 1.9.0
