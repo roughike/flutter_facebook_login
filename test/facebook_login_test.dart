@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_facebook_login/src/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -7,6 +8,7 @@ import 'custom_matchers.dart';
 
 void main() {
   group('$FacebookLogin', () {
+    WidgetsFlutterBinding.ensureInitialized();
     const channel = MethodChannel('com.roughike/flutter_facebook_login');
 
     final beforeExpiry =
