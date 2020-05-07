@@ -27,30 +27,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static final FacebookLogin facebookSignIn = new FacebookLogin();
+  static final FacebookLogin facebookSignIn = FacebookLogin();
 
   String _message = 'Log in/out by pressing the buttons below.';
+  String _fbToken = '';
+  bool _isLogged = false;
 
   Future<Null> _login() async {
-    final FacebookLoginResult result = await facebookSignIn.logIn(['email']);
+    final FacebookLoginResult result = await facebookSignIn.logIn(['email', 'public_profile']);
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         final FacebookAccessToken accessToken = result.accessToken;
-        _showMessage('''
-         Logged in!
-         
-         Token: ${accessToken.token}
-         User id: ${accessToken.userId}
-         Expires: ${accessToken.expires}
-         Permissions: ${accessToken.permissions}
-         Declined permissions: ${accessToken.declinedPermissions}
-         ''');
+        _showMessage('Logged in!');
+        _showToken(accessToken);
+        setState(() => _isLogged = true);
         break;
       case FacebookLoginStatus.cancelledByUser:
+        setState(() => _isLogged = false);
         _showMessage('Login cancelled by the user.');
         break;
       case FacebookLoginStatus.error:
+        setState(() => _isLogged = false);
         _showMessage('Something went wrong with the login process.\n'
             'Here\'s the error Facebook gave us: ${result.errorMessage}');
         break;
@@ -59,7 +57,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<Null> _logOut() async {
     await facebookSignIn.logOut();
+    setState(() {
+      _isLogged = false;
+      _fbToken = '';
+    });
     _showMessage('Logged out.');
+  }
+
+  Future<Null> _getToken() async {
+    setState(() => _fbToken = 'Loading...');
+    FacebookAccessToken facebookAccessToken = await facebookSignIn.currentAccessToken;
+    _showToken(facebookAccessToken);
   }
 
   void _showMessage(String message) {
@@ -68,26 +76,49 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _showToken(FacebookAccessToken accessToken) {
+    if (accessToken == null) {
+      setState(() => _fbToken = 'Invalid token.');
+      return;
+    }
+    setState(() {
+      _fbToken = '''
+         Token: ${accessToken?.token?.substring(0, 40)} ...
+         User id: ${accessToken?.userId}
+         Expires: ${accessToken.expires}
+         Permissions: ${accessToken.permissions}
+         Declined permissions: ${accessToken.declinedPermissions}
+         ''';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Plugin example app'),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Plugin example app'),
         ),
-        body: new Center(
-          child: new Column(
+        body: Center(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Text(_message),
-              new RaisedButton(
+              Text(_message),
+              Text(_fbToken),
+              RaisedButton(
                 onPressed: _login,
-                child: new Text('Log in'),
+                child: Text('Log in'),
               ),
-              new RaisedButton(
+              RaisedButton(
                 onPressed: _logOut,
-                child: new Text('Logout'),
+                child: Text('Logout'),
               ),
+              _isLogged
+                  ? RaisedButton(
+                      onPressed: _getToken,
+                      child: Text('Get token'),
+                    )
+                  : Container(),
             ],
           ),
         ),

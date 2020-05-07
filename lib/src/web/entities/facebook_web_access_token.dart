@@ -9,8 +9,8 @@ class FacebookWebAccessToken {
     FacebookWebAccessToken accessToken = FacebookWebAccessToken();
     accessToken.token = mapObject['accessToken'];
     accessToken.userId = mapObject['userID'];
-    accessToken.expires = mapObject['expiresIn'];
-
+    accessToken.expires = mapObject['expiresIn']; // facebook web token has 2 hours to expire
+    accessToken.expires = DateTime.now().millisecondsSinceEpoch + (accessToken.expires * 1000);
     if (mapObject['permissions'] != null) {
       accessToken.permissions = mapObject['permissions'];
     }
