@@ -60,8 +60,9 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _isLogged = false;
       _fbToken = '';
+      _message = 'Logged out.';
     });
-    _showMessage('Logged out.');
+    // _showMessage('Logged out.');
   }
 
   Future<Null> _getToken() async {

@@ -66,9 +66,8 @@ class FacebookLoginPlugin {
   // // LOGOUT
 
   Future _logout() {
-    return _browserInteractor.callJSMethodAsync('FB', 'logout', null).then((response) {
-      return response != null ? true : false;
-    });
+    var response = _browserInteractor.callJSMethod('FB', 'logout', null);
+    return Future.value(response != null ? true : false);
   }
 
   // CURRENT ACCESS TOKEN
