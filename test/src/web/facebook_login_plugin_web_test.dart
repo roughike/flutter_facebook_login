@@ -19,14 +19,14 @@ void main() {
 
     group('Login tests', () {
       List permissions = ['email', 'public_profile'];
-      Map scope = { 'scope': permissions.join(',')};
+      Map scope = {'scope': permissions.join(',')};
       Map callArgs = {'permissions': permissions};
       MethodCall call = MethodCall('logIn', callArgs);
 
       test('Login success test', () async {
         when(browserInteractor.callJSMethodAsync('FB', 'login', [scope]))
-        .thenAnswer((_) => Future.value(KFacebookWebResponse));
-        
+            .thenAnswer((_) => Future.value(KFacebookWebResponse));
+
         var result = await webPlugin.handleMethodCall(call);
         expect(result['status'], 'loggedIn');
         expect(result['accessToken'], isNotNull);
@@ -35,10 +35,8 @@ void main() {
 
       test('Login rejected test', () async {
         when(browserInteractor.callJSMethodAsync('FB', 'login', [scope]))
-        .thenAnswer((_) => Future.value({
-          'status': 'not_authorized'
-        }));
-  
+            .thenAnswer((_) => Future.value({'status': 'not_authorized'}));
+
         var result = await webPlugin.handleMethodCall(call);
         expect(result['status'], 'cancelledByUser');
         expect(result['accessToken'], null);
@@ -46,33 +44,29 @@ void main() {
       });
 
       test('Login error test', () async {
-          when(browserInteractor.callJSMethodAsync('FB', 'login', [scope]))
-          .thenAnswer((_) => Future.value({
-            'status': '...'
-          }));
-    
-          var result = await webPlugin.handleMethodCall(call);
-          expect(result['status'], 'error');
-          expect(result['accessToken'], null);
-          expect(result['errorMessage'], 'Unknown facebook status from web.');
-        });
+        when(browserInteractor.callJSMethodAsync('FB', 'login', [scope]))
+            .thenAnswer((_) => Future.value({'status': '...'}));
+
+        var result = await webPlugin.handleMethodCall(call);
+        expect(result['status'], 'error');
+        expect(result['accessToken'], null);
+        expect(result['errorMessage'], 'Unknown facebook status from web.');
+      });
     }); // End group
 
     group('Logout tests', () {
       MethodCall call = MethodCall('logOut');
 
       test('Logout success test', () async {
-        when(browserInteractor.callJSMethodAsync('FB', 'logout', any))
-        .thenAnswer((_) => Future.value(true));
-        
+        when(browserInteractor.callJSMethodAsync('FB', 'logout', any)).thenAnswer((_) => Future.value(true));
+
         var result = await webPlugin.handleMethodCall(call);
         expect(result, true);
       });
 
       test('Logout error test', () async {
-        when(browserInteractor.callJSMethodAsync('FB', 'logout', any))
-        .thenAnswer((_) => Future.value(null));
-        
+        when(browserInteractor.callJSMethodAsync('FB', 'logout', any)).thenAnswer((_) => Future.value(null));
+
         var result = await webPlugin.handleMethodCall(call);
         expect(result, false);
       });
@@ -82,21 +76,19 @@ void main() {
       MethodCall call = MethodCall('getCurrentAccessToken');
 
       test('Get access token success test', () async {
-        when(browserInteractor.callJSMethod('FB', 'getAuthResponse', any))
-        .thenAnswer((_) => kWebAccessToken);
-        
+        when(browserInteractor.callJSMethod('FB', 'getAuthResponse', any)).thenAnswer((_) => kWebAccessToken);
+
         var result = await webPlugin.handleMethodCall(call);
         expect(result['token'], 'test_token');
         expect(result['userId'], 'test_user_id');
-        expect(result['expires'], 1463378400);
+        expect(result['expires'], isNotNull);
         expect(result['permissions'], isNotNull);
         expect(result['declinedPermissions'], isNotNull);
       });
 
       test('Get access token error test', () async {
-        when(browserInteractor.callJSMethod('FB', 'getAuthResponse', any))
-        .thenAnswer((_) => null);
-        
+        when(browserInteractor.callJSMethod('FB', 'getAuthResponse', any)).thenAnswer((_) => null);
+
         var result = await webPlugin.handleMethodCall(call);
         expect(result, isNull);
       });
