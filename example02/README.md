@@ -1,16 +1,31 @@
-# example02
+# Facebook Login - WEB Example
 
-A new Flutter project.
+This projetc is a demo. Use it to test flutter web with facebook login plugin.
+- [Demo online](https://fb-login-29c92.firebaseapp.com)
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Open and replace your appId created in Facebook dashboard.
+- example02/web/index.html
+- example02/ios/Runner/Info.plist
+- example02/android/app/src/main/res/values/strings.xml
 
-A few resources to get you started if this is your first Flutter project:
+<b>Obs.</b> Run this project using <b>https connection</b>.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Https in localhost
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Using <b>Linux</b> or <b>Mac</b>, run:
+```
+$ ./https_runner.sh
+```
+
+<b>Obs1.</b> First time, the script will check if you have a valid https certificate. If not, it will be created. Follow the questions.
+
+<b>Obs2.</b>Second time the script will build flutter web and run a python server inside the project folder.
+
+<b>Obs3.</b>After build process you will see a link. Open this link in your broswer.
+```
+open https://localhost:4443/build/web
+```
+
+<b>Obs4.</b> Every time code changes, you will need run this command again.
