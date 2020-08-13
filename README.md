@@ -135,6 +135,12 @@ Once you have the Facebook App ID figured out, then you'll just have to copy-pas
 
 A sample of a complete Info.plist file can be found [here](https://github.com/roughike/flutter_facebook_login/blob/master/example/ios/Runner/Info.plist#L49-L70).
 
+Your Podfile should define a minimum iOS version like this:
+**\<your project root\>/ios/Podfile**
+```
+platform :ios, '9.0'
+```
+
 Done!
 
 ## How do I use it?
