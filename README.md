@@ -6,10 +6,6 @@
 
 A Flutter plugin for using the native Facebook Login SDKs on Android and iOS.
 
-flutter\_facebook\_login is being sponsored by the following tool; please help support us by taking a look and signing up to a free trial:
-
-<a href="https://tracking.gitads.io/?repo=flutter_facebook_login"> <img src="https://images.gitads.io/flutter_facebook_login" alt="GitAds"/> </a>
-
 ## AndroidX support
 
 * if you want to **avoid AndroidX**, use version 1.2.0.
