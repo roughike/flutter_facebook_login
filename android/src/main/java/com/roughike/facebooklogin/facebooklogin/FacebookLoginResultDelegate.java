@@ -55,7 +55,11 @@ class FacebookLoginResultDelegate implements FacebookCallback<LoginResult>, Plug
 
     private void finishWithResult(Object result) {
         if (pendingResult != null) {
-            pendingResult.success(result);
+            try {
+                pendingResult.success(result);
+            } catch(java.lang.IllegalStateException ex) {
+            }
+            
             pendingResult = null;
         }
     }
