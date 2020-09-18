@@ -124,7 +124,6 @@ Once you have the Facebook App ID figured out, then you'll just have to copy-pas
 <array>
     <string>fbapi</string>
     <string>fb-messenger-share-api</string>
-    <string>fbauth2</string>
     <string>fbshareextension</string>
 </array>
 ```
