@@ -17,7 +17,7 @@ import 'src/clock.dart';
 /// ```dart
 /// final facebookLogin = FacebookLogin();
 /// final result =
-///   await facebookLogin.logInWithPermissions(['email']);
+///   await facebookLogin.logIn(['email']);
 ///
 /// switch (result.status) {
 ///   case FacebookLoginStatus.loggedIn:
