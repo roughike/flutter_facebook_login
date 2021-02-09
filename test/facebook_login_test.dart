@@ -6,6 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'custom_matchers.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('$FacebookLogin', () {
     const channel = MethodChannel('com.roughike/flutter_facebook_login');
 
@@ -41,9 +43,9 @@ void main() {
     };
 
     final log = <MethodCall>[];
-    FacebookLogin sut;
+    late FacebookLogin sut;
 
-    void setMethodCallResponse(Map<String, dynamic> response) {
+    void setMethodCallResponse(Map<String, dynamic>? response) {
       channel.setMockMethodCallHandler((methodCall) {
         log.add(methodCall);
         return Future.value(response);
@@ -94,7 +96,7 @@ void main() {
       setMethodCallResponse(kLoggedInResponse);
 
       final result = await sut.logIn([]);
-      final map = result.accessToken.toMap();
+      final map = result.accessToken!.toMap();
 
       expect(
         map,
@@ -122,13 +124,6 @@ void main() {
       final second = FacebookAccessToken.fromMap(kAccessToken);
 
       expect(first, equals(second));
-    });
-
-    test('loginBehavior - with null argument', () async {
-      setMethodCallResponse(null);
-
-      // Setting a null login behavior is not allowed.
-      expect(() => sut.loginBehavior = null, throwsAssertionError);
     });
 
     test('loginBehavior - nativeWithFallback is the default', () async {
@@ -187,7 +182,7 @@ void main() {
       ]);
 
       expect(result.status, FacebookLoginStatus.loggedIn);
-      expectAccessTokenParsedCorrectly(result.accessToken);
+      expectAccessTokenParsedCorrectly(result.accessToken!);
 
       expect(
         log,
@@ -279,7 +274,7 @@ void main() {
       setMethodCallResponse(kAccessToken);
 
       final accessToken = await sut.currentAccessToken;
-      expectAccessTokenParsedCorrectly(accessToken);
+      expectAccessTokenParsedCorrectly(accessToken!);
     });
 
     test('FacebookAccessToken#isValid() - when not expired, returns true',
@@ -289,7 +284,7 @@ void main() {
       Clock.dateTimeResolver = () => beforeExpiry;
 
       final accessToken = await sut.currentAccessToken;
-      expect(accessToken.isValid(), isTrue);
+      expect(accessToken!.isValid(), isTrue);
     });
 
     test('FacebookAccessToken#isValid() - when expired, returns false',
@@ -299,7 +294,7 @@ void main() {
       Clock.dateTimeResolver = () => afterExpiry;
 
       final accessToken = await sut.currentAccessToken;
-      expect(accessToken.isValid(), isFalse);
+      expect(accessToken!.isValid(), isFalse);
     });
   });
 }

@@ -51,7 +51,6 @@ class FacebookLogin {
   ///
   /// Ignored on iOS, as it's not supported by the iOS Facebook Login SDK anymore.
   set loginBehavior(FacebookLoginBehavior behavior) {
-    assert(behavior != null, 'The login behavior cannot be null.');
     _loginBehavior = behavior;
   }
 
@@ -82,8 +81,8 @@ class FacebookLogin {
   ///
   /// NOTE: This might return an access token that has expired. If you need to be
   /// sure that the token is still valid, call [isValid] on the access token.
-  Future<FacebookAccessToken> get currentAccessToken async {
-    final Map<dynamic, dynamic> accessToken =
+  Future<FacebookAccessToken?> get currentAccessToken async {
+    final Map<dynamic, dynamic>? accessToken =
         await channel.invokeMethod('getCurrentAccessToken');
 
     if (accessToken == null) {
@@ -104,14 +103,13 @@ class FacebookLogin {
   Future<FacebookLoginResult> logIn(
     List<String> permissions,
   ) async {
-    final Map<dynamic, dynamic> result =
-        await channel.invokeMethod('logIn', {
+    final result = await channel.invokeMethod<Map<dynamic, dynamic>>('logIn', {
       'behavior': _currentLoginBehaviorAsString(),
       'permissions': permissions,
     });
 
     return _deliverResult(
-        FacebookLoginResult._(result.cast<String, dynamic>()));
+        FacebookLoginResult._(result?.cast<String, dynamic>() ?? {}));
   }
 
   /// Logs the currently logged in user out.
@@ -127,8 +125,6 @@ class FacebookLogin {
   Future<void> logOut() async => channel.invokeMethod('logOut');
 
   String _currentLoginBehaviorAsString() {
-    assert(_loginBehavior != null, 'The login behavior was unexpectedly null.');
-
     switch (_loginBehavior) {
       case FacebookLoginBehavior.nativeWithFallback:
         return 'nativeWithFallback';
@@ -139,8 +135,6 @@ class FacebookLogin {
       case FacebookLoginBehavior.webViewOnly:
         return 'webViewOnly';
     }
-
-    throw StateError('Invalid login behavior.');
   }
 
   /// There's a weird bug where calling Navigator.push (or any similar method)
@@ -212,13 +206,13 @@ class FacebookLoginResult {
   ///
   /// Only available when the [status] equals [FacebookLoginStatus.loggedIn],
   /// otherwise null.
-  final FacebookAccessToken accessToken;
+  final FacebookAccessToken? accessToken;
 
   /// The error message when the log in flow completed with an error.
   ///
   /// Only available when the [status] equals [FacebookLoginStatus.error],
   /// otherwise null.
-  final String errorMessage;
+  final String? errorMessage;
 
   FacebookLoginResult._(Map<String, dynamic> map)
       : status = _parseStatus(map['status']),
@@ -229,7 +223,7 @@ class FacebookLoginResult {
             : null,
         errorMessage = map['errorMessage'];
 
-  static FacebookLoginStatus _parseStatus(String status) {
+  static FacebookLoginStatus _parseStatus(String? status) {
     switch (status) {
       case 'loggedIn':
         return FacebookLoginStatus.loggedIn;
@@ -264,10 +258,10 @@ enum FacebookLoginStatus {
 class FacebookAccessToken {
   /// The access token returned by the Facebook login, which can be used to
   /// access Facebook APIs.
-  final String token;
+  final String? token;
 
   /// The id for the user that is associated with this access token.
-  final String userId;
+  final String? userId;
 
   /// The date when this access token expires.
   final DateTime expires;
@@ -277,14 +271,14 @@ class FacebookAccessToken {
   /// These are the permissions that were requested with last login, and which
   /// the user approved. If permissions have changed since the last login, this
   /// list might be outdated.
-  final List<String> permissions;
+  final List<String>? permissions;
 
   /// The list of declined permissions associated with this access token.
   ///
   /// These are the permissions that were requested, but the user didn't
   /// approve. Similarly to [permissions], this list might be outdated if these
   /// permissions have changed since the last login.
-  final List<String> declinedPermissions;
+  final List<String>? declinedPermissions;
 
   /// Is this access token expired or not?
   ///
