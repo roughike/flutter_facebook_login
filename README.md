@@ -1,5 +1,9 @@
 # flutter_facebook_login
 
+* DEPRECATED - no longer actively maintained * 
+
+Use more maintained plugin [flutter_facebook_auth](https://pub.dev/packages/flutter_facebook_auth)
+
 [![pub package](https://img.shields.io/pub/v/flutter_facebook_login.svg)](https://pub.dartlang.org/packages/flutter_facebook_login)
  [![Build Status](https://travis-ci.org/roughike/flutter_facebook_login.svg?branch=master)](https://travis-ci.org/roughike/flutter_facebook_login) 
  [![Coverage Status](https://coveralls.io/repos/github/roughike/flutter_facebook_login/badge.svg)](https://coveralls.io/github/roughike/flutter_facebook_login)
