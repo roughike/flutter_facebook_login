@@ -104,14 +104,49 @@ class FacebookLogin {
   Future<FacebookLoginResult> logIn(
     List<String> permissions,
   ) async {
-    final Map<dynamic, dynamic> result =
-        await channel.invokeMethod('logIn', {
+    final Map<dynamic, dynamic> result = await channel.invokeMethod('logIn', {
       'behavior': _currentLoginBehaviorAsString(),
       'permissions': permissions,
     });
 
     return _deliverResult(
         FacebookLoginResult._(result.cast<String, dynamic>()));
+  }
+
+  /// Set user advertiser tracking enabled status
+  /// Returns always success
+  /// Works for only iOS
+  Future<void> setAdvertiserTrackingEnabled(
+    bool enable,
+  ) async {
+    final Map<dynamic, dynamic> result =
+        await channel.invokeMethod('setAdvertiserTrackingEnabled', {
+      'enabled': enable,
+    });
+  }
+
+  /// Send log event
+  /// Returns always success
+  Future<void> logEvent(
+    bool eventName,
+  ) async {
+    final Map<dynamic, dynamic> result =
+        await channel.invokeMethod('logEvent', {
+      'eventName': eventName,
+    });
+  }
+
+  /// Send log event with parameters
+  /// Returns always success
+  Future<void> logEventWithParameters(
+    bool eventName,
+    Map<String, dynamic> parameters,
+  ) async {
+    final Map<dynamic, dynamic> result =
+        await channel.invokeMethod('logEventWithParameters', {
+      'eventName': eventName,
+      'parameters': parameters,
+    });
   }
 
   /// Logs the currently logged in user out.

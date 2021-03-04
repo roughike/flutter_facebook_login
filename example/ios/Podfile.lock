@@ -1,41 +1,41 @@
 PODS:
-  - FBSDKCoreKit (5.6.0):
-    - FBSDKCoreKit/Basics (= 5.6.0)
-    - FBSDKCoreKit/Core (= 5.6.0)
-  - FBSDKCoreKit/Basics (5.6.0)
-  - FBSDKCoreKit/Core (5.6.0):
+  - FBSDKCoreKit (9.0.1):
+    - FBSDKCoreKit/Basics (= 9.0.1)
+    - FBSDKCoreKit/Core (= 9.0.1)
+  - FBSDKCoreKit/Basics (9.0.1)
+  - FBSDKCoreKit/Core (9.0.1):
     - FBSDKCoreKit/Basics
-  - FBSDKLoginKit (5.6.0):
-    - FBSDKLoginKit/Login (= 5.6.0)
-  - FBSDKLoginKit/Login (5.6.0):
-    - FBSDKCoreKit (~> 5.0)
+  - FBSDKLoginKit (9.0.1):
+    - FBSDKLoginKit/Login (= 9.0.1)
+  - FBSDKLoginKit/Login (9.0.1):
+    - FBSDKCoreKit (~> 9.0.1)
   - Flutter (1.0.0)
-  - flutter_facebook_login (0.0.1):
-    - FBSDKCoreKit (~> 5.5)
-    - FBSDKLoginKit (~> 5.5)
+  - flutter_facebook_login (0.0.2):
+    - FBSDKCoreKit (~> 9.0.1)
+    - FBSDKLoginKit (~> 9.0.1)
     - Flutter
 
 DEPENDENCIES:
-  - Flutter (from `/Users/iirokrankka/flutter/bin/cache/artifacts/engine/ios`)
-  - flutter_facebook_login (from `/Users/iirokrankka/flutter_facebook_login/ios`)
+  - Flutter (from `/Users/ilkerulusoy/Applications/flutter-development/flutter/bin/cache/artifacts/engine/ios-release`)
+  - flutter_facebook_login (from `/Users/ilkerulusoy/git/git_potensas_game/flutter_facebook_login/ios`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - FBSDKCoreKit
     - FBSDKLoginKit
 
 EXTERNAL SOURCES:
   Flutter:
-    :path: "/Users/iirokrankka/flutter/bin/cache/artifacts/engine/ios"
+    :path: "/Users/ilkerulusoy/Applications/flutter-development/flutter/bin/cache/artifacts/engine/ios-release"
   flutter_facebook_login:
-    :path: "/Users/iirokrankka/flutter_facebook_login/ios"
+    :path: "/Users/ilkerulusoy/git/git_potensas_game/flutter_facebook_login/ios"
 
 SPEC CHECKSUMS:
-  FBSDKCoreKit: d6655a343868d4bb5c29a60859bab07c3be14a0b
-  FBSDKLoginKit: c5a623de88a6b0cda35b35582921f6cec2efcc36
+  FBSDKCoreKit: fada1a6a0076724678993ff05a633848765ff18c
+  FBSDKLoginKit: d5ffe6d808897019ccf16feb6f0a7ab260bc5cd6
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_facebook_login: 0266e8cf236ad20f17d377c4251c582638d8bef7
+  flutter_facebook_login: 42c4ed8e123cc695b97569b0ad4ef2ce5d9582c5
 
-PODFILE CHECKSUM: 3098c51a7edbd004c9f2b45eca5eb135d6f3ff27
+PODFILE CHECKSUM: 9a1067c1f784f379ed3d0692688873181278f6f5
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.10.1
