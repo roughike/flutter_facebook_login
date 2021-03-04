@@ -62,6 +62,19 @@
     [self logOut:result];
   } else if ([@"getCurrentAccessToken" isEqualToString:call.method]) {
     [self getCurrentAccessToken:result];
+  } else if ([@"setAdvertiserTrackingEnabled" isEqualToString:call.method]) {
+      BOOL status = call.arguments[@"enabled"] != nil ? call.arguments[@"enabled"] != nil : NO;
+      [FBSDKSettings setAdvertiserTrackingEnabled:status];
+      [self statusSuccess:result];
+  } else if ([@"logEvent" isEqualToString:call.method]) {
+      NSString *eventName = call.arguments[@"eventName"];
+      [FBSDKAppEvents logEvent:eventName];
+      [self statusSuccess:result];
+  } else if ([@"logEventWithParameters" isEqualToString:call.method]) {
+      NSString *eventName = call.arguments[@"eventName"];
+      NSDictionary *parameters = call.arguments[@"parameters"];
+      [FBSDKAppEvents logEvent:eventName parameters:parameters];
+      [self statusSuccess:result];
   } else {
     result(FlutterMethodNotImplemented);
   }
@@ -83,6 +96,11 @@
 - (void)logOut:(FlutterResult)result {
   [loginManager logOut];
   result(nil);
+}
+
+- (void)statusSuccess:(FlutterResult)result {
+    result(@{
+        @"status" : @"loggedIn"});
 }
 
 - (void)getCurrentAccessToken:(FlutterResult)result {

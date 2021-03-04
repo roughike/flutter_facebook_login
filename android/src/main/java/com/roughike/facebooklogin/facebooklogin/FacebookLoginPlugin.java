@@ -21,10 +21,14 @@ public class FacebookLoginPlugin implements MethodCallHandler {
 
     private static final String METHOD_LOG_IN = "logIn";
     private static final String METHOD_LOG_OUT = "logOut";
+    private static final String METHOD_LOG_EVENT = "logEvent";
+    private static final String METHOD_LOG_EVENT_WITH_PARAMETERS = "logEventWithParameters";
     private static final String METHOD_GET_CURRENT_ACCESS_TOKEN = "getCurrentAccessToken";
 
     private static final String ARG_LOGIN_BEHAVIOR = "behavior";
     private static final String ARG_PERMISSIONS = "permissions";
+    private static final String ARG_EVENT_NAME = "eventName";
+    private static final String ARG_PARAMETERS = "parameters";
 
     private static final String LOGIN_BEHAVIOR_NATIVE_WITH_FALLBACK = "nativeWithFallback";
     private static final String LOGIN_BEHAVIOR_NATIVE_ONLY = "nativeOnly";
@@ -47,7 +51,8 @@ public class FacebookLoginPlugin implements MethodCallHandler {
     public void onMethodCall(MethodCall call, Result result) {
         String loginBehaviorStr;
         LoginBehavior loginBehavior;
-
+        String eventName;
+        HasMap<String,Object> parameters;
         switch (call.method) {
             case METHOD_LOG_IN:
                 loginBehaviorStr = call.argument(ARG_LOGIN_BEHAVIOR);
@@ -55,6 +60,15 @@ public class FacebookLoginPlugin implements MethodCallHandler {
                 List<String> permissions = call.argument(ARG_PERMISSIONS);
 
                 delegate.logIn(loginBehavior, permissions, result);
+                break;
+            case METHOD_LOG_EVENT:
+                eventName = call.argument(ARG_EVENT_NAME);
+                delegate.logEvent(eventName, result);
+                break;
+            case METHOD_LOG_EVENT_WITH_PARAMETERS:
+                eventName = call.argument(ARG_EVENT_NAME);
+                parameters = call.argument(ARG_PARAMETERS);
+                delegate.logEventWithParameters(eventName,parameters,result);
                 break;
             case METHOD_LOG_OUT:
                 delegate.logOut(result);
@@ -118,11 +132,23 @@ public class FacebookLoginPlugin implements MethodCallHandler {
             result.success(null);
         }
 
+        public void logEvent(String eventName,Result result) {
+            loginManager.logEvent(eventName);
+            result.success(null);
+        }
+
+        public void logEventWithParameters(String eventName,Map<String,Object> parameters,Result result) {
+            loginManager.logEventWithParameters(eventName,parameters);
+            result.success(null);
+        }
+
         public void getCurrentAccessToken(Result result) {
             AccessToken accessToken = AccessToken.getCurrentAccessToken();
             Map<String, Object> tokenMap = FacebookLoginResults.accessToken(accessToken);
 
             result.success(tokenMap);
         }
+
+
     }
 }
